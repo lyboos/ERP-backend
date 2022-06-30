@@ -362,6 +362,18 @@ public class WarehouseServiceImpl implements WarehouseService {
          * 3.Dao层和service层接口已实现
          *
          */
+        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+            Date beginTime =dateFormat.parse(beginDateStr);
+            Date endTime=dateFormat.parse(endDateStr);
+            if(beginTime.compareTo(endTime)>0){
+                return null;
+            }else{
+                return warehouseInputSheetDao.getWarehouseIODetailByTime(beginTime,endTime);
+            }
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -378,6 +390,18 @@ public class WarehouseServiceImpl implements WarehouseService {
          * 2.考虑开始时间大于结束时间的情况、查询结果为空的情况
          * 3.Dao层和service层接口已实现，方法对应的Mapper为WarehouseInputSheetMapper
          */
+        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+            Date beginTime =dateFormat.parse(beginDateStr);
+            Date endTime=dateFormat.parse(endDateStr);
+            if(beginTime.compareTo(endTime)>0){
+                return 0;
+            }else{
+                return warehouseInputSheetDao.getWarehouseInputProductQuantityByTime(beginTime,endTime) == null?0:warehouseInputSheetDao.getWarehouseInputProductQuantityByTime(beginTime,endTime);
+            }
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
@@ -395,6 +419,18 @@ public class WarehouseServiceImpl implements WarehouseService {
          * 3.Dao层和service层接口已提供，需要先补充WarehouseInputSheetMapper中的sql语句
          */
 
+        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+            Date beginTime =dateFormat.parse(beginDateStr);
+            Date endTime=dateFormat.parse(endDateStr);
+            if(beginTime.compareTo(endTime)>0){
+                return 0;
+            }else{
+                return warehouseOutputSheetDao.getWarehouseOutputProductQuantityByTime(beginTime,endTime) == null?0:warehouseOutputSheetDao.getWarehouseOutputProductQuantityByTime(beginTime,endTime);
+            }
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
