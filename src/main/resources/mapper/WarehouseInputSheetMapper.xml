@@ -63,7 +63,12 @@
 2.入库单状态必须为"审批完成",才算是完成一次入库操作
 -->
     <select id="getWarehouseInputProductQuantityByTime" resultType="java.lang.Integer">
-
+        select count(wisc.quantity)
+        from warehouse_input_sheet_content wisc, warehouse_input_sheet wis
+        where wisc.id = wis.id
+        and wis.state = '审批完成'
+        and wis.create_time >= #{beginTime}
+        and #{endTime} >= wis.create_time;
     </select>
 
 
