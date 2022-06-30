@@ -39,8 +39,8 @@
         from warehouse_output_sheet_content wosc, warehouse_output_sheet wos
         where wosc.id = wos.id
         and wos.state = '审批完成'
-        and wos.create_time >= #{beginTime}
-        and #{endTime} >= wos.create_time;
+        and wos.create_time >= #{arg0}
+        and #{arg1} >= wos.create_time;
     </select>
 
 

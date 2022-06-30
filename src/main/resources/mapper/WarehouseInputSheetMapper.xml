@@ -50,7 +50,8 @@
 2.出入库单状态必须为"审批完成",才算是完成一次出库或者入库操作
 -->
     <select id="getWarehouseIODetailByTime" resultType="com.nju.edu.erp.model.po.WarehouseIODetailPO">
-
+        select wis.id as sheet
+        from warehouse_input_sheet wis
     </select>
 
 
@@ -67,8 +68,8 @@
         from warehouse_input_sheet_content wisc, warehouse_input_sheet wis
         where wisc.id = wis.id
         and wis.state = '审批完成'
-        and wis.create_time >= #{beginTime}
-        and #{endTime} >= wis.create_time;
+        and wis.create_time >= #{arg0}
+        and #{arg1} >= wis.create_time;
     </select>
 
 
