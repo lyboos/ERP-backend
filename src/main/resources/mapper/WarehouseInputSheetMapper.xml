@@ -50,7 +50,31 @@
 2.出入库单状态必须为"审批完成",才算是完成一次出库或者入库操作
 -->
     <select id="getWarehouseIODetailByTime" resultType="com.nju.edu.erp.model.po.WarehouseIODetailPO">
+        select 'warehouse_input' as type,
+                wis.id as sheet_id,
+                p.name as product_name,
+                c.name as category_name,
+                wisc.quantity as quantity,
+                wisc.purchase_price as unit_price,
+                ps.total_amount as total_price,
+                wis.create_time as create_time
+        from warehouse_input_sheet wis, warehouse_input_sheet_content wisc, purchase_sheet ps, product p,category c
+        where wis.id = wisc.wi_id and wis.state = '审批完成' and wis.purchase_sheet_id = ps.id and wisc.pid = p.id
+          and p.category_id = c.id and wis.create_time >= #{beginTime} and #{endTime} >= wis.create_time
 
+        union all
+
+        select 'warehouse_output' as type,
+                wos.id as sheet_id,
+                p.name as product_name,
+                c.name as category_name,
+                wosc.quantity as quantity,
+                wosc.sale_price as unit_price,
+                ss.raw_total_amount as total_price,
+                wos.create_time as create_time
+        from warehouse_output_sheet wos, warehouse_output_sheet_content wosc, sale_sheet ss, product p,category c
+        where wos.id = wosc.wo_id and wos.state = '审批完成' and wos.sale_sheet_id = ss.id and wosc.pid = p.id
+          and p.category_id = c.id and wos.create_time >= #{beginTime} and #{endTime} >= wos.create_time;
     </select>
 
 
@@ -63,7 +87,12 @@
 2.入库单状态必须为"审批完成",才算是完成一次入库操作
 -->
     <select id="getWarehouseInputProductQuantityByTime" resultType="java.lang.Integer">
-
+        select sum(wisc.quantity)
+        from warehouse_input_sheet_content wisc, warehouse_input_sheet wis
+        where wisc.wi_id = wis.id
+          and wis.state = '审批完成'
+          and wis.create_time >= #{beginTime}
+          and #{endTime} >= wis.create_time;
     </select>
 
 
