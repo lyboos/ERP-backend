@@ -80,9 +80,8 @@ public interface WarehouseService {
      * @param beginDateStr 开始时间字符串
      * @param endDateStr 结束时间字符串
      * @return
-     * @throws ParseException
      */
-    List<WarehouseIODetailPO> getWarehouseIODetailByTime(String beginDateStr,String endDateStr) throws ParseException;
+    List<WarehouseIODetailPO> getWarehouseIODetailByTime(String beginDateStr,String endDateStr);
 
 
     /**

@@ -354,7 +354,7 @@ public class WarehouseServiceImpl implements WarehouseService {
      * @return
      */
     @Override
-    public List<WarehouseIODetailPO> getWarehouseIODetailByTime(String beginDateStr,String endDateStr) {
+    public List<WarehouseIODetailPO> getWarehouseIODetailByTime(String beginDateStr,String endDateStr)  {
         // TODO
         /**
          * 1.注意日期的格式转换和转换异常
@@ -371,13 +371,25 @@ public class WarehouseServiceImpl implements WarehouseService {
      * @param endDateStr 结束时间字符串 格式为："yyyy-MM-dd HH:mm:ss"
      * @return
      */
-    public int getWarehouseInputProductQuantityByTime(String beginDateStr,String endDateStr){
+    public int getWarehouseInputProductQuantityByTime(String beginDateStr,String endDateStr)  {
         // TODO
         /**
          * 1.注意日期的格式转换和转换异常
          * 2.考虑开始时间大于结束时间的情况、查询结果为空的情况
          * 3.Dao层和service层接口已实现，方法对应的Mapper为WarehouseInputSheetMapper
          */
+        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+            Date beginTime =dateFormat.parse(beginDateStr);
+            Date endTime=dateFormat.parse(endDateStr);
+            if(beginTime.compareTo(endTime)>0){
+                return 0;
+            }else{
+                return warehouseInputSheetDao.getWarehouseInputProductQuantityByTime(beginTime,endTime);
+            }
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
@@ -387,14 +399,25 @@ public class WarehouseServiceImpl implements WarehouseService {
      * @param endDateStr 结束时间字符串 格式为："yyyy-MM-dd HH:mm:ss"
      * @return
      */
-    public int getWarehouseOutProductQuantityByTime(String beginDateStr,String endDateStr){
+    public int getWarehouseOutProductQuantityByTime(String beginDateStr,String endDateStr)  {
         // TODO
         /**
          * 1.注意日期的格式转换和转换异常
          * 2.考虑开始时间大于结束时间的情况、查询结果为空的情况
          * 3.Dao层和service层接口已提供，需要先补充WarehouseInputSheetMapper中的sql语句
          */
-
+        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+            Date beginTime =dateFormat.parse(beginDateStr);
+            Date endTime=dateFormat.parse(endDateStr);
+            if(beginTime.compareTo(endTime)>0){
+                return 0;
+            }else{
+                return warehouseOutputSheetDao.getWarehouseOutputProductQuantityByTime(beginTime,endTime);
+            }
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
