@@ -4,10 +4,12 @@ import com.nju.edu.erp.dao.CustomerDao;
 import com.nju.edu.erp.enums.CustomerType;
 import com.nju.edu.erp.model.po.CustomerPO;
 import com.nju.edu.erp.model.vo.CustomerVO;
+import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -41,6 +43,17 @@ public class CustomerServiceImpl implements CustomerService {
 
         return customerDao.findAllByType(type);
     }
+
+    @Override
+    public void insertCustomer(CustomerVO customerVO) {
+        customerDao.insertCustomer(customerVO);
+    }
+
+    @Override
+    public void deleteCustomer(CustomerVO customerVO) {
+        customerDao.deleteCustomer(customerVO);
+    }
+
 
     @Override
     public CustomerPO findCustomerById(Integer supplier) {
