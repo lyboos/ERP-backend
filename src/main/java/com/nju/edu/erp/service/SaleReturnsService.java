@@ -19,7 +19,7 @@ public interface SaleReturnsService {
      * @param state 销售退货单状态
      * @return 销售退货单
      */
-    List<SaleReturnsSheetVO> getSaleReturnsSheetByState(PurchaseReturnsSheetState state);
+    List<SaleReturnsSheetVO> getSaleReturnsSheetByState(SaleReturnsSheetState state);
 
     /**
      * 根据销售退货单id进行审批(state == "待二级审批"/"审批完成"/"审批失败")
