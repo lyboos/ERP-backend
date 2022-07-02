@@ -14,15 +14,17 @@ class CustomerServiceTest {
     @Autowired
     CustomerService customerService;
     CustomerVO customerVO = new CustomerVO(3,"供应商",10,"hhhhh","12306","NJU","123456","114514@abc.com",new BigDecimal(0.00),new BigDecimal(0.00),new BigDecimal(60000.00),"uncln");
-    CustomerVO customerVO1 = new CustomerVO(null,"供应商",10,"hhhhh","12306","NJU","123456","114514@abc.com",new BigDecimal(0.00),new BigDecimal(0.00),new BigDecimal(60000.00),"uncln");
+
     @Test
     void insertCustomer() {//用来证明可用性
         int result = customerService.insertCustomer(customerVO);
         Assertions.assertEquals(1,result);
+        customerService.deleteCustomer(customerVO);
     }
 
     @Test
     void deleteCustomer() {//用来证明可用性
+        customerService.insertCustomer(customerVO);
         int result = customerService.deleteCustomer(customerVO);
         Assertions.assertEquals(1,result);
     }
@@ -32,6 +34,7 @@ class CustomerServiceTest {
         int result = customerService.insertCustomer(customerVO);
         result = customerService.insertCustomer(customerVO);
         Assertions.assertEquals(0,result);
+        customerService.deleteCustomer(customerVO);
     }
 
 }
