@@ -25,14 +25,16 @@ public interface CustomerService {
     /**
      * 新增一名客户
      * @param customerVO
+     * @return int
      */
-    void insertCustomer(CustomerVO customerVO);
+    int insertCustomer(CustomerVO customerVO);
 
     /**
      * 删除一名用户
      * @param customerVO
+     * @return int
      */
-    void deleteCustomer(CustomerVO customerVO);
+    int deleteCustomer(CustomerVO customerVO);
 
     CustomerPO findCustomerById(Integer supplier);
 }

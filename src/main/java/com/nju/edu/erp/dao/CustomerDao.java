@@ -15,9 +15,9 @@ public interface CustomerDao {
 
     CustomerPO findOneById(Integer supplier);
 
-    void insertCustomer(CustomerVO customerVO);
+    int insertCustomer(CustomerVO customerVO);
 
-    void deleteCustomer(CustomerVO customerVO);
+    int deleteCustomer(CustomerVO customerVO);
 
     List<CustomerPO> findAllByType(CustomerType customerType);
 }

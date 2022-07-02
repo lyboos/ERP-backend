@@ -44,14 +44,28 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDao.findAllByType(type);
     }
 
+    /**
+     * insert一个用户
+     * @param customerVO
+     * @return 正常情况返回影响行数，0代表失败，1代表成功
+     */
     @Override
-    public void insertCustomer(CustomerVO customerVO) {
-        customerDao.insertCustomer(customerVO);
+    public int insertCustomer(CustomerVO customerVO) {
+        try{
+            return customerDao.insertCustomer(customerVO);
+        }catch (Exception e){
+            return 0;
+        }
     }
 
+    /**
+     * delete一个客户
+     * @param customerVO
+     * @return 影响的行数，若id无匹配返回0，因为不太会报错所以不使用try&catch
+     */
     @Override
-    public void deleteCustomer(CustomerVO customerVO) {
-        customerDao.deleteCustomer(customerVO);
+    public int deleteCustomer(CustomerVO customerVO) {
+        return customerDao.deleteCustomer(customerVO);
     }
 
 
