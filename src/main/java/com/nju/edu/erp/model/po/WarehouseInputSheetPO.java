@@ -30,7 +30,7 @@ public class WarehouseInputSheetPO {
      */
     private Date createTime;
     /**
-     * 关联的进货单据
+     * 关联的进货/销售退货单据
      */
     private String purchaseSheetId;
     /**

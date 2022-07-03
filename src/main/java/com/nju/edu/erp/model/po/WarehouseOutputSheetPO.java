@@ -26,7 +26,7 @@ public class WarehouseOutputSheetPO {
      */
     private Date createTime;
     /**
-     * 关联的销售单据
+     * 关联的销售/进货退货单据
      */
     private String saleSheetId;
     /**

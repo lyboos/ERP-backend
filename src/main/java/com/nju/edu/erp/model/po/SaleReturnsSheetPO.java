@@ -53,7 +53,7 @@ public class SaleReturnsSheetPO {
      */
     private BigDecimal voucherAmount;
     /**
-     * 折让后总额
+     * 应退还总金额
      */
     private BigDecimal finalAmount;
     /**

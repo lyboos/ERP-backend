@@ -14,5 +14,5 @@ import java.util.List;
 public class WarehouseInputFormVO { // 入库单
     private List<WarehouseInputFormContentVO> list;
     private String operator; // 操作员
-    private String purchaseSheetId; // 关联的进货单Id
+    private String purchaseSheetId; // 关联的进货/销售退货单Id
 }

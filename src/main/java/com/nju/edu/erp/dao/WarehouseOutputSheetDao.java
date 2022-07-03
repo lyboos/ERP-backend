@@ -58,6 +58,13 @@ public interface WarehouseOutputSheetDao {
     void updateById(WarehouseOutputSheetPO warehouseOutputSheetPO);
 
     /**
+     * 根据销售单Id找对应出库单Id （本来进货退货单也应该走这条路，但反正框架代码就那样了，懒得改）
+     * @param sheetId
+     * @return 出库单Id
+     */
+    String getOutputSheetIdByPSSheetId(String sheetId);
+
+    /**
      * 获取出库单具体内容
      * @param sheetId
      * @return

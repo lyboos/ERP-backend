@@ -56,6 +56,10 @@
         select * from warehouse_output_sheet where id = #{sheetId};
     </select>
 
+    <select id="getOutputSheetIdByPSSheetId" resultType="java.lang.String">
+        select id from warehouse_output_sheet where sale_sheet_id = #{sheetId};
+    </select>
+
     <select id="getAllContentById" resultType="com.nju.edu.erp.model.po.WarehouseOutputSheetContentPO">
         select * from warehouse_output_sheet_content where wo_id = #{sheetId};
     </select>
