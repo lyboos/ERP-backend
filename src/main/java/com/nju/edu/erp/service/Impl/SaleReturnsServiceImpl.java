@@ -74,16 +74,19 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
         saleReturnsSheetPO.setCreateTime(new Date());
         SaleReturnsSheetPO latest = saleReturnsSheetDao.getLatest();
         String id = IdGenerator.generateSheetId(latest == null ? null : latest.getId(), "XSTHD");
-        saleReturnsSheetPO.setSaleSheetId(id);
+        saleReturnsSheetPO.setId(id);
         saleReturnsSheetPO.setState(SaleSheetState.PENDING_LEVEL_1);
         BigDecimal finalAmount = BigDecimal.ZERO;
+        BigDecimal rawTotalAmount = BigDecimal.ZERO;
         SaleSheetPO saleSheet = saleSheetDao.findSheetById(saleReturnsSheetVO.getSaleSheetId());
 
         // 每件商品的实际折扣率 = 折扣 - 消费券 / 订单总价
+        // duplicated for issue of losing precision when rounding.
+        // see better way below
         BigDecimal discount = saleSheet.getDiscount();
         BigDecimal voucher = saleSheet.getVoucherAmount();
-        BigDecimal rawTotalAmount = saleSheet.getRawTotalAmount();
-        BigDecimal trueDiscount = discount.subtract(voucher.divide(rawTotalAmount, voucher.scale() - rawTotalAmount.scale(), RoundingMode.FLOOR));
+        BigDecimal saleRawTotalAmount = saleSheet.getRawTotalAmount();
+        //BigDecimal trueDiscount = discount.subtract(voucher.divide(saleRawTotalAmount, voucher.scale() - saleRawTotalAmount.scale()));
 
         List<SaleSheetContentPO> saleSheetContents = saleSheetDao.findContentBySheetId(saleReturnsSheetPO.getSaleSheetId());
         Map<String, SaleSheetContentPO> map = new HashMap<>();
@@ -101,10 +104,16 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
             BigDecimal unitPrice = pContentPO.getUnitPrice();
             pContentPO.setTotalPrice(unitPrice.multiply(BigDecimal.valueOf(pContentPO.getQuantity())));
             pContentPOList.add(pContentPO);
-            //rawTotalAmount = rawTotalAmount.add(pContentPO.getTotalPrice());
-            finalAmount = finalAmount.add(pContentPO.getTotalPrice().multiply(trueDiscount));
+            saleRawTotalAmount = saleRawTotalAmount.add(pContentPO.getTotalPrice());
+            // voucherAmountOnThisContent = totalPrice / rawTotalAmount * voucher = (totalPrice * voucher) / rawTotalAmount
+            BigDecimal voucherAmount = pContentPO.getTotalPrice().multiply(voucher);
+            rawTotalAmount = rawTotalAmount.add(pContentPO.getTotalPrice());
+            voucherAmount = voucherAmount.divide(saleRawTotalAmount, voucherAmount.scale() - saleRawTotalAmount.scale());
+            finalAmount = finalAmount.add(pContentPO.getTotalPrice().multiply(discount));
+            finalAmount = finalAmount.subtract(voucherAmount);
         }
         saleReturnsSheetDao.saveBatch(pContentPOList);
+        saleReturnsSheetPO.setRawTotalAmount(rawTotalAmount);
         saleReturnsSheetPO.setFinalAmount(finalAmount);
         saleReturnsSheetDao.save(saleReturnsSheetPO);
     }

@@ -12,7 +12,7 @@
         update warehouse set quantity = (quantity - #{quantity})
         where batch_id = #{batchId} and pid = #{pid};
     </update>
-    <update id="increaseQuantity" parameterMap="WarehousePO">
+    <update id="increaseQuantity" parameterType="WarehousePO">
         update warehouse set quantity = (quantity + #{quantity})
         where batch_id = #{batchId} and pid = #{pid};
     </update>
