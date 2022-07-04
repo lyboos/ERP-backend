@@ -55,14 +55,15 @@ public class SaleReturnsServiceTest { // 该测试为集成测试，需要用到
     PurchaseReturnsService purchaseReturnsService;
 
 
-    @Test
-    public void env() {
-        UserVO user = new UserVO();
-        user.setRole(Role.ADMIN);
-        user.setName("EnjoyYourself");
-        warehouseService.approvalOutputSheet(user, "CKD-20220704-00001", WarehouseOutputSheetState.PENDING);
-        warehouseService.approvalOutputSheet(user, "CKD-20220704-00001", WarehouseOutputSheetState.SUCCESS);
-    }
+//    @Test
+//    public void env() {
+//        saleService.approval("XSD-20220704-00001", SaleSheetState.SUCCESS);
+//        UserVO user = new UserVO();
+//        user.setRole(Role.ADMIN);
+//        user.setName("EnjoyYourself");
+//        warehouseService.approvalOutputSheet(user, "CKD-20220704-00001", WarehouseOutputSheetState.PENDING);
+//        warehouseService.approvalOutputSheet(user, "CKD-20220704-00001", WarehouseOutputSheetState.SUCCESS);
+//    }
 
     @Test
     public void warehouseServiceTest(){
