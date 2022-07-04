@@ -1,6 +1,6 @@
 package com.nju.edu.erp.model.po;
 
-import com.nju.edu.erp.enums.sheetState.SaleSheetState;
+import com.nju.edu.erp.enums.sheetState.SaleReturnsSheetState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -59,7 +59,7 @@ public class SaleReturnsSheetPO {
     /**
      * 单据状态
      */
-    private SaleSheetState state;
+    private SaleReturnsSheetState state;
     /**
      * 创建时间
      */

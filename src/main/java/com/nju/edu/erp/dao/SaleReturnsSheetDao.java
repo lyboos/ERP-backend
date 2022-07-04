@@ -65,7 +65,7 @@ public interface SaleReturnsSheetDao {
      * @param saleReturnsSheetId 销售退货单id
      * @return
      */
-    SaleReturnsSheetPO findOneById(String saleReturnsSheetId);
+    SaleReturnsSheetPO findSheetById(String saleReturnsSheetId);
 
     /**
      * 通过saleReturnsSheetId找到对应的content条目

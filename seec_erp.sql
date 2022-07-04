@@ -36,6 +36,12 @@ CREATE TABLE `sale_returns_sheet`  (
     `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
+INSERT INTO seec_erp.sale_returns_sheet (id, sale_sheet_id, salesman, operator, remark, raw_total_amount, discount, voucher_amount, final_amount, state, create_time) VALUES ('XSTHD-20220704-00000', 'XSD-20220704-00000', null, 'xiaoshoujingli', 'Test1and2', null, 0.80, 300.00, 151861.65, '待一级审批', '2022-07-04 11:58:03');
+INSERT INTO seec_erp.sale_returns_sheet (id, sale_sheet_id, salesman, operator, remark, raw_total_amount, discount, voucher_amount, final_amount, state, create_time) VALUES ('XSTHD-20220704-00001', 'XSD-20220704-00001', null, 'xiaoshoujingli', 'Test2', null, 0.80, 300.00, 118100.00, '待二级审批', '2022-07-04 12:24:49');
+INSERT INTO seec_erp.sale_returns_sheet (id, sale_sheet_id, salesman, operator, remark, raw_total_amount, discount, voucher_amount, final_amount, state, create_time) VALUES ('XSTHD-20220704-00002', 'XSD-20220704-00002', null, 'xiaoshoujingli', 'Test2', null, 0.80, 300.00, 118100.00, '审批完成', '2022-07-04 12:25:55');
+INSERT INTO seec_erp.sale_returns_sheet (id, sale_sheet_id, salesman, operator, remark, raw_total_amount, discount, voucher_amount, final_amount, state, create_time) VALUES ('XSTHD-20220704-00003', 'XSD-20220704-00003', null, 'xiaoshoujingli', 'Test1', 190000.00, 0.80, 300.00, 151896.87, '审批失败', '2022-07-04 12:32:30');
+
+
 -- ----------------------------
 -- Table structure for sale_returns_sheet_content
 -- ----------------------------
@@ -50,6 +56,15 @@ CREATE TABLE `sale_returns_sheet_content`  (
     `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+INSERT INTO seec_erp.sale_returns_sheet_content (id, sale_returns_sheet_id, pid, quantity, total_price, unit_price, remark) VALUES (51, 'XSTHD-20220704-00000', '0000000000400000', 20, 64000.00, 3200.00, 'Test1-product1');
+INSERT INTO seec_erp.sale_returns_sheet_content (id, sale_returns_sheet_id, pid, quantity, total_price, unit_price, remark) VALUES (52, 'XSTHD-20220704-00000', '0000000000400001', 30, 126000.00, 4200.00, 'Test1-product2');
+INSERT INTO seec_erp.sale_returns_sheet_content (id, sale_returns_sheet_id, pid, quantity, total_price, unit_price, remark) VALUES (53, 'XSTHD-20220704-00001', '0000000000400000', 20, 64000.00, 3200.00, 'Test2-product1');
+INSERT INTO seec_erp.sale_returns_sheet_content (id, sale_returns_sheet_id, pid, quantity, total_price, unit_price, remark) VALUES (54, 'XSTHD-20220704-00001', '0000000000400001', 20, 84000.00, 4200.00, 'Test2-product2');
+INSERT INTO seec_erp.sale_returns_sheet_content (id, sale_returns_sheet_id, pid, quantity, total_price, unit_price, remark) VALUES (55, 'XSTHD-20220704-00002', '0000000000400000', 20, 64000.00, 3200.00, 'Test2-product1');
+INSERT INTO seec_erp.sale_returns_sheet_content (id, sale_returns_sheet_id, pid, quantity, total_price, unit_price, remark) VALUES (56, 'XSTHD-20220704-00002', '0000000000400001', 20, 84000.00, 4200.00, 'Test2-product2');
+INSERT INTO seec_erp.sale_returns_sheet_content (id, sale_returns_sheet_id, pid, quantity, total_price, unit_price, remark) VALUES (57, 'XSTHD-20220704-00003', '0000000000400000', 20, 64000.00, 3200.00, 'Test1-product1');
+INSERT INTO seec_erp.sale_returns_sheet_content (id, sale_returns_sheet_id, pid, quantity, total_price, unit_price, remark) VALUES (58, 'XSTHD-20220704-00003', '0000000000400001', 30, 126000.00, 4200.00, 'Test1-product2');
 
 -- ----------------------------
 -- Table structure for category
@@ -263,6 +278,10 @@ INSERT INTO `sale_sheet` VALUES ('XSD-20220524-00001', 2, 'xiaoshoujingli', NULL
 INSERT INTO `sale_sheet` VALUES ('XSD-20220524-00002', 2, 'xiaoshoujingli', NULL, '审批完成', '2022-05-24 00:45:25', 'xiaoshoujingli', 720000.00, 0.80, 575800.00, 200.00);
 INSERT INTO `sale_sheet` VALUES ('XSD-20220524-00003', 2, 'xiaoshoujingli', NULL, '待二级审批', '2022-05-24 01:05:15', 'xiaoshoujingli', 660000.00, 0.80, 527700.00, 300.00);
 INSERT INTO `sale_sheet` VALUES ('XSD-20220524-00004', 2, 'xiaoshoujingli', NULL, '待一级审批', '2022-05-24 01:07:23', 'xiaoshoujingli', 2900000.00, 0.90, 2609800.00, 200.00);
+INSERT INTO `sale_sheet` VALUES ('XSD-20220704-00000', 2, 'xiaoshoujingli', 'ReturnsTest1', '审批完成', '2022-07-04 11:58:03', null, 412000.00, 0.80, 329300.00, 300.00);
+INSERT INTO `sale_sheet` VALUES ('XSD-20220704-00001', 2, 'xiaoshoujingli', 'ReturnsTest2', '审批完成', '2022-07-04 12:24:48', null, 148000.00, 0.80, 118100.00, 300.00);
+INSERT INTO `sale_sheet` VALUES ('XSD-20220704-00002', 2, 'xiaoshoujingli', 'ReturnsTest2', '审批完成', '2022-07-04 12:25:54', null, 148000.00, 0.80, 118100.00, 300.00);
+INSERT INTO `sale_sheet` VALUES ('XSD-20220704-00003', 2, 'xiaoshoujingli', 'Test1', '审批完成', '2022-07-04 12:32:30', null, 412000.00, 0.80, 329300.00, 300.00);
 
 -- ----------------------------
 -- Table structure for sale_sheet_content

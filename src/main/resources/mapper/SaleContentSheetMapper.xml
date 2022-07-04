@@ -25,7 +25,7 @@
     <select id="findAllByState" resultType="com.nju.edu.erp.model.po.SaleReturnsSheetPO">
         select * from sale_returns_sheet where state = #{state}
     </select>
-    <select id="findOneById" resultType="com.nju.edu.erp.model.po.SaleReturnsSheetPO">
+    <select id="findSheetById" resultType="com.nju.edu.erp.model.po.SaleReturnsSheetPO">
         select * from sale_returns_sheet where id=#{saleReturnsSheetId}
     </select>
     <select id="findContentBySaleReturnsSheetId" resultType="com.nju.edu.erp.model.po.SaleReturnsSheetContentPO">

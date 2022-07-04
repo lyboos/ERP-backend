@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
 
 @Service
@@ -75,7 +74,7 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
         SaleReturnsSheetPO latest = saleReturnsSheetDao.getLatest();
         String id = IdGenerator.generateSheetId(latest == null ? null : latest.getId(), "XSTHD");
         saleReturnsSheetPO.setId(id);
-        saleReturnsSheetPO.setState(SaleSheetState.PENDING_LEVEL_1);
+        saleReturnsSheetPO.setState(SaleReturnsSheetState.PENDING_LEVEL_1);
         BigDecimal finalAmount = BigDecimal.ZERO;
         BigDecimal rawTotalAmount = BigDecimal.ZERO;
         SaleSheetPO saleSheet = saleSheetDao.findSheetById(saleReturnsSheetVO.getSaleSheetId());
@@ -159,9 +158,9 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
     @Override
     @Transactional
     public void approval(String saleReturnsSheetId, SaleReturnsSheetState state) {
-        SaleReturnsSheetPO saleReturnsSheet = saleReturnsSheetDao.findOneById(saleReturnsSheetId);
+        SaleReturnsSheetPO saleReturnsSheet = saleReturnsSheetDao.findSheetById(saleReturnsSheetId);
         if (state.equals(SaleReturnsSheetState.FAILURE)) {
-            if (saleReturnsSheet.getState().equals(SaleSheetState.SUCCESS)) throw new RuntimeException("状态更新失败");
+            if (saleReturnsSheet.getState().equals(SaleReturnsSheetState.SUCCESS)) throw new RuntimeException("状态更新失败");
             int effectLines = saleReturnsSheetDao.updateState(saleReturnsSheetId, state);
             if (effectLines == 0) throw new RuntimeException("状态更新失败");
         } else {
