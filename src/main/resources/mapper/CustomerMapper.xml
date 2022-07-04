@@ -47,12 +47,12 @@
 
     <!-- 类名一定要完整，如果parameterType后面跟的是CustomerVO的话会报错-->
     <!-- 另外delete语句可以不标参数-->
-    <insert id="insertCustomer" parameterType="com.nju.edu.erp.model.vo.CustomerVO">
+    <insert id="insertCustomer" parameterType="com.nju.edu.erp.model.po.CustomerPO" useGeneratedKeys="true" keyProperty="id">
         insert into customer(id,type,level,name,phone,address,zipcode,email,line_of_credit,receivable,payable,operator)
         values (#{id},#{type},#{level},#{name},#{phone},#{address},#{zipcode},#{email},#{lineOfCredit},#{receivable},#{payable},#{operator})
     </insert>
 
-    <delete id="deleteCustomer" parameterType="com.nju.edu.erp.model.vo.CustomerVO">
+    <delete id="deleteCustomer" parameterType="com.nju.edu.erp.model.po.CustomerPO">
         delete from customer where id = #{id}
     </delete>
     
