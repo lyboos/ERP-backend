@@ -65,7 +65,7 @@ public class SaleServiceImpl implements SaleService {
         BeanUtils.copyProperties(saleSheetVO, saleSheetPO);
         saleSheetPO.setOperator(userVO.getName());
         saleSheetPO.setCreateTime(new Date());
-        SaleSheetPO latest = saleSheetDao.getLatestSheet();
+        SaleSheetPO latest = saleSheetDao.getLatest();
         String id = IdGenerator.generateSheetId(latest == null ? null : latest.getId(), "XSD");
         saleSheetPO.setId(id);
         saleSheetPO.setState(SaleSheetState.PENDING_LEVEL_1);
@@ -74,7 +74,7 @@ public class SaleServiceImpl implements SaleService {
         for (SaleSheetContentVO content : saleSheetVO.getSaleSheetContent()) {
             SaleSheetContentPO sContentPO = new SaleSheetContentPO();
             BeanUtils.copyProperties(content, sContentPO);
-            sContentPO.setSaleSheetId(id);
+            sContentPO.setSheetId(id);
             BigDecimal unitPrice = sContentPO.getUnitPrice();
             if (unitPrice == null) {
                 ProductPO product = productDao.findById(content.getPid());
@@ -85,11 +85,11 @@ public class SaleServiceImpl implements SaleService {
             sContentPOList.add(sContentPO);
             totalAmount = totalAmount.add(sContentPO.getTotalPrice());
         }
-        saleSheetDao.saveBatchSheetContent(sContentPOList);
+        saleSheetDao.saveBatch(sContentPOList);
         saleSheetPO.setRawTotalAmount(totalAmount);
         BigDecimal finalAmount = saleSheetPO.getRawTotalAmount().multiply(saleSheetPO.getDiscount()).subtract(saleSheetPO.getVoucherAmount());
         saleSheetPO.setFinalAmount(finalAmount);
-        saleSheetDao.saveSheet(saleSheetPO);
+        saleSheetDao.save(saleSheetPO);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class SaleServiceImpl implements SaleService {
         // 依赖的dao层部分方法未提供，需要自己实现
         List<SaleSheetVO> res = new ArrayList<>();
         List<SaleSheetPO> all;
-        all = saleSheetDao.findAllSheet().stream().filter(po -> po.getState().equals(state)).collect(Collectors.toList());
+        all = saleSheetDao.findAll().stream().filter(po -> po.getState().equals(state)).collect(Collectors.toList());
         for(SaleSheetPO po: all) {
             SaleSheetVO vo = new SaleSheetVO();
             BeanUtils.copyProperties(po, vo);
@@ -140,7 +140,7 @@ public class SaleServiceImpl implements SaleService {
         if (state.equals(SaleSheetState.FAILURE)) {
             SaleSheetPO saleSheet = saleSheetDao.findSheetById(saleSheetId);
             if (saleSheet.getState() == SaleSheetState.SUCCESS) throw new RuntimeException("状态更新失败");
-            int effectLines = saleSheetDao.updateSheetState(saleSheetId, state);
+            int effectLines = saleSheetDao.updateState(saleSheetId, state);
             if (effectLines == 0) throw new RuntimeException("状态更新失败");
         } else {
             SaleSheetState prevState;
@@ -151,7 +151,7 @@ public class SaleServiceImpl implements SaleService {
             } else {
                 throw new RuntimeException("状态更新失败");
             }
-            int effectLines = saleSheetDao.updateSheetStateOnPrev(saleSheetId, prevState, state);
+            int effectLines = saleSheetDao.updateStateV2(saleSheetId, prevState, state);
             if (effectLines == 0) throw new RuntimeException("状态更新失败");
             if (state.equals(SaleSheetState.SUCCESS)) {
                 List<SaleSheetContentPO> saleSheetContent = saleSheetDao.findContentBySheetId(saleSheetId);

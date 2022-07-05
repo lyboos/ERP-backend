@@ -86,11 +86,11 @@ public class SaleServiceTest { // 该测试为集成测试，需要用到数据�
                 .voucherAmount(BigDecimal.valueOf(300))
                 .remark("Test1")
                 .build();
-        SaleSheetPO prevSheet = saleSheetDao.getLatestSheet();
+        SaleSheetPO prevSheet = saleSheetDao.getLatest();
         String realSheetId = IdGenerator.generateSheetId(prevSheet == null ? null : prevSheet.getId(), "XSD");
 
         saleService.makeSaleSheet(userVO, saleSheetVO);
-        SaleSheetPO latestSheet = saleSheetDao.getLatestSheet();
+        SaleSheetPO latestSheet = saleSheetDao.getLatest();
         Assertions.assertNotNull(latestSheet);
         Assertions.assertEquals(realSheetId, latestSheet.getId());
         Assertions.assertEquals(0, latestSheet.getRawTotalAmount().compareTo(BigDecimal.valueOf(412000.00)));

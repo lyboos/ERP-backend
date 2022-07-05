@@ -103,7 +103,7 @@ public class SaleReturnsServiceTest { // 该测试为集成测试，需要用到
                 .build();
 
         saleService.makeSaleSheet(userVO, saleSheetVO);
-        SaleSheetPO latestSaleSheet = saleSheetDao.getLatestSheet();
+        SaleSheetPO latestSaleSheet = saleSheetDao.getLatest();
 
         String sheetId = latestSaleSheet.getId();
         saleService.approval(sheetId, SaleSheetState.PENDING_LEVEL_2);

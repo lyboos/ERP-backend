@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nju.edu.erp.dao.SaleSheetDao">
-    <insert id="saveSheet">
+    <insert id="save">
         insert into sale_sheet (id, supplier, operator, remark, `state`, create_time, salesman, raw_total_amount, discount, final_amount, voucher_amount)
         values (#{id},#{supplier},#{operator},#{remark}, #{state}, #{createTime}, #{salesman}, #{rawTotalAmount}, #{discount}, #{finalAmount}, #{voucherAmount}) ;
     </insert>
 
-    <insert id="saveBatchSheetContent" useGeneratedKeys="true" keyProperty="id">
+    <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">
         insert into sale_sheet_content (sale_sheet_id, pid, quantity, unit_price, total_price, remark) values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.saleSheetId},#{item.pid},#{item.quantity},#{item.unitPrice},#{item.totalPrice},#{item.remark})
+            (#{item.sheetId},#{item.pid},#{item.quantity},#{item.unitPrice},#{item.totalPrice},#{item.remark})
         </foreach>
     </insert>
 
-    <update id="updateSheetState">
+    <update id="updateState">
         update sale_sheet
         set state = #{state}
         where id = #{sheetId}
     </update>
 
-    <update id="updateSheetStateOnPrev">
+    <update id="updateStateV2">
         update sale_sheet
         set state = #{state}
-        where id = #{sheetId} and state = #{prev}
+        where id = #{sheetId} and state = #{prevState}
     </update>
 
-    <select id="getLatestSheet" resultType="com.nju.edu.erp.model.po.SaleSheetPO">
+    <select id="getLatest" resultType="com.nju.edu.erp.model.po.SaleSheetPO">
         select * from sale_sheet order by id desc limit 0,1 ;
     </select>
 
-    <select id="findAllSheet" resultType="com.nju.edu.erp.model.po.SaleSheetPO">
+    <select id="findAll" resultType="com.nju.edu.erp.model.po.SaleSheetPO">
         select * from sale_sheet;
     </select>
 

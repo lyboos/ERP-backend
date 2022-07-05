@@ -94,7 +94,7 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
         for (SaleReturnsSheetContentVO content : saleReturnsSheetVO.getSaleReturnsSheetContent()) {
             SaleReturnsSheetContentPO pContentPO = new SaleReturnsSheetContentPO();
             BeanUtils.copyProperties(content, pContentPO);
-            pContentPO.setSaleReturnsSheetId(id);
+            pContentPO.setSheetId(id);
             SaleSheetContentPO item = map.get(pContentPO.getPid());
             pContentPO.setUnitPrice(item.getUnitPrice());
 

@@ -19,7 +19,7 @@ public class SaleSheetContentPO implements SheetContentPO {
     /**
      * 销售单id
      */
-    private String saleSheetId;
+    private String sheetId;
     /**
      * 商品id
      */
@@ -40,9 +40,4 @@ public class SaleSheetContentPO implements SheetContentPO {
      * 备注
      */
     private String remark;
-
-    @Override
-    public String getSheetId() {
-        return saleSheetId;
-    }
 }
