@@ -3,9 +3,7 @@ package com.nju.edu.erp.service;
 import com.nju.edu.erp.enums.CustomerType;
 import com.nju.edu.erp.model.po.CustomerPO;
 import com.nju.edu.erp.model.vo.CustomerVO;
-import com.nju.edu.erp.model.vo.UserVO;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface CustomerService {
