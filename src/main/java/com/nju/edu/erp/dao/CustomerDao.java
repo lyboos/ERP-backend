@@ -2,7 +2,6 @@ package com.nju.edu.erp.dao;
 
 import com.nju.edu.erp.enums.CustomerType;
 import com.nju.edu.erp.model.po.CustomerPO;
-import com.nju.edu.erp.model.vo.CustomerVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +14,9 @@ public interface CustomerDao {
 
     CustomerPO findOneById(Integer supplier);
 
-    int insertCustomer(CustomerVO customerVO);
+    int insertCustomer(CustomerPO customerPO);
 
-    int deleteCustomer(CustomerVO customerVO);
+    int deleteCustomer(CustomerPO customerPO);
 
     List<CustomerPO> findAllByType(CustomerType customerType);
 }

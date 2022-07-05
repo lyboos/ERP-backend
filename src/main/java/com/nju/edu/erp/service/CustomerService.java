@@ -2,10 +2,7 @@ package com.nju.edu.erp.service;
 
 import com.nju.edu.erp.enums.CustomerType;
 import com.nju.edu.erp.model.po.CustomerPO;
-import com.nju.edu.erp.model.vo.CustomerVO;
-import com.nju.edu.erp.model.vo.UserVO;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface CustomerService {
@@ -24,17 +21,17 @@ public interface CustomerService {
 
     /**
      * 新增一名客户
-     * @param customerVO
+     * @param customerPO
      * @return int
      */
-    int insertCustomer(CustomerVO customerVO);
+    int insertCustomer(CustomerPO customerPO);
 
     /**
      * 删除一名用户
-     * @param customerVO
+     * @param customerPO
      * @return int
      */
-    int deleteCustomer(CustomerVO customerVO);
+    int deleteCustomer(CustomerPO customerPO);
 
     CustomerPO findCustomerById(Integer supplier);
 }
