@@ -17,8 +17,8 @@ public interface SheetDao<Sheetpo extends SheetPO, State extends BaseEnum<?, Str
     Sheetpo getLatest();
 
     /**
-     * 存入一条进货单记录
-     * @param toSave 一条进货单记录
+     * 存入一条单记录
+     * @param toSave 一条单记录
      * @return 影响的行数
      */
     int save(Sheetpo toSave);
