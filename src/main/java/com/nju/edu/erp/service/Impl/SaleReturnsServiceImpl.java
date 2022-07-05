@@ -76,7 +76,6 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
         saleReturnsSheetPO.setId(id);
         saleReturnsSheetPO.setState(SaleReturnsSheetState.PENDING_LEVEL_1);
         BigDecimal finalAmount = BigDecimal.ZERO;
-        BigDecimal rawTotalAmount = BigDecimal.ZERO;
         SaleSheetPO saleSheet = saleSheetDao.findSheetById(saleReturnsSheetVO.getSaleSheetId());
 
         // 每件商品的实际折扣率 = 折扣 - 消费券 / 订单总价
@@ -103,16 +102,14 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
             BigDecimal unitPrice = pContentPO.getUnitPrice();
             pContentPO.setTotalPrice(unitPrice.multiply(BigDecimal.valueOf(pContentPO.getQuantity())));
             pContentPOList.add(pContentPO);
-            saleRawTotalAmount = saleRawTotalAmount.add(pContentPO.getTotalPrice());
             // voucherAmountOnThisContent = totalPrice / rawTotalAmount * voucher = (totalPrice * voucher) / rawTotalAmount
             BigDecimal voucherAmount = pContentPO.getTotalPrice().multiply(voucher);
-            rawTotalAmount = rawTotalAmount.add(pContentPO.getTotalPrice());
             voucherAmount = voucherAmount.divide(saleRawTotalAmount, voucherAmount.scale() - saleRawTotalAmount.scale());
             finalAmount = finalAmount.add(pContentPO.getTotalPrice().multiply(discount));
             finalAmount = finalAmount.subtract(voucherAmount);
         }
         saleReturnsSheetDao.saveBatch(pContentPOList);
-        saleReturnsSheetPO.setRawTotalAmount(rawTotalAmount);
+        saleReturnsSheetPO.setRawTotalAmount(saleRawTotalAmount);
         saleReturnsSheetPO.setFinalAmount(finalAmount);
         saleReturnsSheetDao.save(saleReturnsSheetPO);
     }

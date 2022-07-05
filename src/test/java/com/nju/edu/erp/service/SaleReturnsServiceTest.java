@@ -77,7 +77,7 @@ public class SaleReturnsServiceTest { // 该测试为集成测试，需要用到
     @Test
     @Transactional
     @Rollback(value = true)
-    public void makeSaleReturnsSheet() { // 测试销售退货单是否生成成功, 误差允许范围1%，测试结果通常在0.1%
+    public void makeSaleReturnsSheet() { // 测试销售退货单是否生成成功, 误差允许范围1元，通常是精确的，即误差为0
         UserVO userVO = UserVO.builder()
                 .name("xiaoshoujingli")
                 .role(Role.SALE_MANAGER)
@@ -143,9 +143,7 @@ public class SaleReturnsServiceTest { // 该测试为集成测试，需要用到
         BigDecimal diff = latestSheet.getFinalAmount().subtract(BigDecimal.valueOf(151861.65)).abs();
         System.out.println(latestSheet.getFinalAmount());
         System.out.println(diff);
-        System.out.println(latestSheet.getFinalAmount().divide(diff, latestSheet.getFinalAmount().scale() - diff.scale()));
-        Assertions.assertTrue(latestSheet.getFinalAmount().divide(diff, latestSheet.getFinalAmount().scale() - diff.scale())
-                .compareTo(BigDecimal.valueOf(100)) > 0);
+        Assertions.assertTrue(diff.compareTo(BigDecimal.ONE) < 0);
         Assertions.assertEquals(SaleReturnsSheetState.PENDING_LEVEL_1, latestSheet.getState());
 
         String returnsSheetId = latestSheet.getId();
