@@ -2,6 +2,7 @@ package com.nju.edu.erp.service;
 
 import com.nju.edu.erp.enums.CustomerType;
 import com.nju.edu.erp.model.po.CustomerPO;
+import com.nju.edu.erp.model.vo.CustomerVO;
 
 import java.util.List;
 
@@ -21,17 +22,17 @@ public interface CustomerService {
 
     /**
      * 新增一名客户
-     * @param customerPO
+     * @param customerVO
      * @return int
      */
-    int insertCustomer(CustomerPO customerPO);
+    int insertCustomer(CustomerVO customerVO);
 
     /**
      * 删除一名用户
-     * @param customerPO
+     * @param customerVO
      * @return int
      */
-    int deleteCustomer(CustomerPO customerPO);
+    int deleteCustomer(CustomerVO customerVO);
 
     CustomerPO findCustomerById(Integer supplier);
 }

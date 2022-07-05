@@ -3,6 +3,7 @@ package com.nju.edu.erp.service.Impl;
 import com.nju.edu.erp.dao.CustomerDao;
 import com.nju.edu.erp.enums.CustomerType;
 import com.nju.edu.erp.model.po.CustomerPO;
+import com.nju.edu.erp.model.vo.CustomerVO;
 import com.nju.edu.erp.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,12 +44,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * insert一个用户
-     * @param customerPO
+     * @param vo
      * @return 正常情况返回影响行数，0代表失败，1代表成功
      */
     @Override
-    public int insertCustomer(CustomerPO customerPO) {
+    public int insertCustomer(CustomerVO vo) {
         try{
+            CustomerPO customerPO = new CustomerPO(vo.getId(),vo.getType(),vo.getLevel(),vo.getName(),vo.getPhone(),vo.getAddress(),vo.getZipcode(),vo.getEmail(),vo.getLineOfCredit(),vo.getReceivable(),vo.getPayable(),vo.getOperator());
             return customerDao.insertCustomer(customerPO);
         }catch (Exception e){
             return 0;
@@ -57,11 +59,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * delete一个客户
-     * @param customerPO
+     * @param vo
      * @return 影响的行数，若id无匹配返回0，因为不太会报错所以不使用try&catch
      */
     @Override
-    public int deleteCustomer(CustomerPO customerPO) {
+    public int deleteCustomer(CustomerVO vo) {
+        CustomerPO customerPO = new CustomerPO(vo.getId(),vo.getType(),vo.getLevel(),vo.getName(),vo.getPhone(),vo.getAddress(),vo.getZipcode(),vo.getEmail(),vo.getLineOfCredit(),vo.getReceivable(),vo.getPayable(),vo.getOperator());
+
         return customerDao.deleteCustomer(customerPO);
     }
 
