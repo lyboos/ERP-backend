@@ -1,4 +1,4 @@
-package com.nju.edu.erp.model.vo.SaleReturns;
+package com.nju.edu.erp.model.vo.saleReturns;
 
 import com.nju.edu.erp.enums.sheetState.SaleSheetState;
 import lombok.AllArgsConstructor;

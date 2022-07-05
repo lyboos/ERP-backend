@@ -1,4 +1,4 @@
-package com.nju.edu.erp.model.vo.Sale;
+package com.nju.edu.erp.model.vo.saleReturns;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,15 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SaleSheetContentVO {
+public class SaleReturnsSheetContentVO {
+    /**
+     * 自增id
+     */
+    private Integer id;
+    /**
+     * 进货退货单id
+     */
+    private String saleReturnsSheetId;
     /**
      * 商品id
      */
@@ -25,7 +33,7 @@ public class SaleSheetContentVO {
      */
     private BigDecimal unitPrice;
     /**
-     * 金额
+     * 总金额
      */
     private BigDecimal totalPrice;
     /**

@@ -4,12 +4,11 @@ import com.nju.edu.erp.dao.*;
 import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.enums.sheetState.SaleReturnsSheetState;
 import com.nju.edu.erp.enums.sheetState.SaleSheetState;
-import com.nju.edu.erp.enums.sheetState.WarehouseOutputSheetState;
 import com.nju.edu.erp.model.po.*;
-import com.nju.edu.erp.model.vo.Sale.SaleSheetContentVO;
-import com.nju.edu.erp.model.vo.Sale.SaleSheetVO;
-import com.nju.edu.erp.model.vo.SaleReturns.SaleReturnsSheetContentVO;
-import com.nju.edu.erp.model.vo.SaleReturns.SaleReturnsSheetVO;
+import com.nju.edu.erp.model.vo.sale.SaleSheetContentVO;
+import com.nju.edu.erp.model.vo.sale.SaleSheetVO;
+import com.nju.edu.erp.model.vo.saleReturns.SaleReturnsSheetContentVO;
+import com.nju.edu.erp.model.vo.saleReturns.SaleReturnsSheetVO;
 import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.utils.IdGenerator;
 import org.junit.jupiter.api.Assertions;
@@ -23,7 +22,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 @SpringBootTest
 public class SaleReturnsServiceTest { // 该测试为集成测试，需要用到数据库，请大家连给定的测试数据库进行测试
