@@ -16,7 +16,11 @@ import org.apache.ibatis.type.MappedTypes;
         CustomerType.class,
         SaleSheetState.class,
         PurchaseReturnsSheetState.class,
-        SaleReturnsSheetState.class
+        SaleReturnsSheetState.class,
+        ReceiptState.class,
+        PaymentState.class,
+        SalarySheetState.class,
+
 })
 public class SysEnumTypeHandler<E extends Enum<E> & BaseEnum> extends BaseEnumTypeHandler<E> {
     /**

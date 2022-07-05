@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SaleReturnsSheetContentPO {
+public class SaleReturnsSheetContentPO implements SheetContentPO {
     /**
      * 自增id
      */
@@ -40,4 +40,9 @@ public class SaleReturnsSheetContentPO {
      * 备注
      */
     private String remark;
+
+    @Override
+    public String getSheetId() {
+        return saleReturnsSheetId;
+    }
 }

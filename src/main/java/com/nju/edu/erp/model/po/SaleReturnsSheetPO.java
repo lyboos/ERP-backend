@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SaleReturnsSheetPO {
+public class SaleReturnsSheetPO implements SheetPO {
     /**
      * 销售退货单单据编号（格式为：XSTHD-yyyyMMdd-xxxxx
      */

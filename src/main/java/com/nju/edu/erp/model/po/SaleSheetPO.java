@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SaleSheetPO {
+public class SaleSheetPO implements SheetPO {
     /**
      * 销售单单据编号（格式为：XSD-yyyyMMdd-xxxxx
      */
