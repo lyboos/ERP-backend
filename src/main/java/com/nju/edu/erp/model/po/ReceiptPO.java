@@ -7,12 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ReceiptPO implements SheetPO {
+public class ReceiptPO implements SheetWithContentPO<ReceiptContentPO> {
     /**
      * 收款单单据编号（格式为：SKD-yyyyMMdd-xxxxx）
      */
@@ -31,6 +32,8 @@ public class ReceiptPO implements SheetPO {
     private BigDecimal TotalAmount;
 
     private ReceiptState state;
+
+    private Date createTime;
 
     // 转账列表是一个content，外键是这个收款单
 }

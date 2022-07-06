@@ -12,7 +12,11 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class PaymentContentPO implements SheetContentPO {
-    private String SheetId;
+    // 自增id
+    private Integer id;
+
+    // 从属的付款单id
+    private String sheetId;
 
     private String bankAccountId;
 

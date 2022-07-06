@@ -1,21 +1,22 @@
-package com.nju.edu.erp.model.po;
+package com.nju.edu.erp.model.vo.receipt;
 
 import com.nju.edu.erp.enums.sheetState.ReceiptState;
+import com.nju.edu.erp.model.vo.SheetWithContentVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PaymentPO implements SheetWithContentPO<PaymentContentPO> {
+public class ReceiptVO implements SheetWithContentVO<ReceiptContentVO> {
     /**
-     * 付款单单据编号（格式为：FKD-yyyyMMdd-xxxxx）
+     * 收款单单据编号（格式为：SKD-yyyyMMdd-xxxxx）
      */
     private String id;
     /**
@@ -27,13 +28,14 @@ public class PaymentPO implements SheetWithContentPO<PaymentContentPO> {
      */
     private String operator;
     /**
-     * 总额汇总
+     * 总额汇总，新建单据时前端传null(在后端计算总金额
      */
     private BigDecimal TotalAmount;
 
+    /**
+     * 单据状态, 新建单据时前端传null
+     */
     private ReceiptState state;
 
-    private Date createTime;
-
-    // 转账列表是一个content，外键是这个收款单
+    private List<ReceiptContentVO> sheetContent;
 }
