@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.HumanResourcesDao">
+
+    <insert id="checkIn" parameterType="checkInPO">
+        insert into checkin (name, date) VALUES (#{name},#{date})
+    </insert>
+
+    <resultMap id="checkInPO" type="com.nju.edu.erp.model.po.checkInPO">
+        <id column="name" property="name"></id>
+        <id column="date" property="date"></id>
+    </resultMap>
+
+<!--    <resultMap id="StaffInfoPO" type="com.nju.edu.erp.model.po.StaffInfoPO">-->
+<!--        <id column="id" property="id"></id>-->
+<!--        <result column="name" property="name"></result>-->
+<!--        <result column="sex" property="sex"></result>-->
+<!--        <result column="birthday" property="birthday"></result>-->
+<!--        <result column="phone" property="phone"></result>-->
+<!--        <result column="job" property="job"></result>-->
+<!--        <result column="base_salary" property="baseSalary"></result>-->
+<!--        <result column="job_salary" property="jobSalary"></result>-->
+<!--        <result column="level" property="level"></result>-->
+<!--        <result column="payment_classification" property="paymentClassification"></result>-->
+<!--        <result column="payment_schedule" property="paymentSchedule"></result>-->
+<!--        <result column="salary_account" property="salaryAccount"></result>-->
+<!--    </resultMap>-->
+</mapper>
