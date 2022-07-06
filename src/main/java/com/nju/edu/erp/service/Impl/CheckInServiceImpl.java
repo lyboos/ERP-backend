@@ -29,22 +29,10 @@ public class CheckInServiceImpl implements CheckInService {
             Date _date =dateFormat.parse(date);
             checkInPO InPO = new checkInPO(staffInfoVO.getName(),_date);
             return checkInDao.checkIn(InPO);
-        }catch (ParseException e) {
+        }catch (Exception e) {
             return 0;
         }
+
     }
 
-//    @Override
-//    public int checkIn(String name, String date) {
-//        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
-//        try{
-//            Date _date =dateFormat.parse(date);
-//            //checkInPO InPO = new checkInPO(staffInfoVO.getName(),_date);
-//            checkInPO InPO = new checkInPO(name,_date);
-//            return humanResourcesDao.checkIn(InPO);
-//        }catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        return 0;
-//    }
 }
