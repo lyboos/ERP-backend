@@ -113,7 +113,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     public void approval(String sheetId, ReceiptState state) {
         if (state.equals(ReceiptState.FAILURE)) {
             ReceiptPO sheet = receiptDao.findSheetById(sheetId);
-            if (sheet.getState() == ReceiptState.SUCCESS) throw new RuntimeException("状态更新失败");
+            if (sheet.getState().equals(ReceiptState.SUCCESS)) throw new RuntimeException("状态更新失败");
             int effectLines = receiptDao.updateState(sheetId, state);
             if (effectLines == 0) throw new RuntimeException("状态更新失败");
         } else {

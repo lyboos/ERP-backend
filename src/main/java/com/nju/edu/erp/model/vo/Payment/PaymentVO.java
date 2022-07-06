@@ -2,7 +2,6 @@ package com.nju.edu.erp.model.vo.Payment;
 
 import com.nju.edu.erp.enums.sheetState.ReceiptState;
 import com.nju.edu.erp.model.vo.SheetWithContentVO;
-import com.nju.edu.erp.model.vo.receipt.ReceiptContentVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,5 +37,5 @@ public class PaymentVO implements SheetWithContentVO<PaymentContentVO> {
      */
     private ReceiptState state;
 
-    List<ReceiptContentVO> sheetContent;
+    List<PaymentContentVO> sheetContent;
 }
