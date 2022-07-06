@@ -12,17 +12,17 @@ create table staff_info
 (
     id                     int auto_increment
         primary key,
-    name                   varchar(31) not null,
-    gender                 varchar(4)  not null,
-    birthday               date        null,
-    phone                  varchar(15) null,
-    job                    varchar(31) null,
-    base_salary            int         null,
-    job_salary             int         null,
-    level                  int         null,
-    payment_classification int         null comment '用数字代表计算方式，暂定1代表固定工资，2代表提成制。',
-    payment_schedule       int         null comment '用数字来区分不同的发放时间，暂定1代表月薪，2代表年薪。',
-    bank_account_id        varchar(31) not null,
+    name                   varchar(31)    not null,
+    gender                 varchar(4)     not null,
+    birthday               date           null,
+    phone                  varchar(15)    null,
+    job                    varchar(31)    null,
+    base_salary            decimal(10, 2) null,
+    job_salary             decimal(10, 2) null,
+    level                  int            null,
+    payment_classification int            null comment '用数字代表计算方式，暂定1代表固定工资，2代表提成制。',
+    payment_schedule       int            null comment '用数字来区分不同的发放时间，暂定1代表月薪，2代表年薪。',
+    bank_account_id        varchar(31)    not null,
     constraint staff_info_id_uindex
         unique (id),
     constraint staff_info_name_uindex

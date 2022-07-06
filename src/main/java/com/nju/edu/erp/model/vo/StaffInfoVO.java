@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 
 @Data
 @AllArgsConstructor
@@ -16,7 +18,7 @@ public class StaffInfoVO {// 员工信息VO
     /**
      * id
      */
-    private int id;
+    private Integer id;
 
     /**
      * 姓名
@@ -46,12 +48,12 @@ public class StaffInfoVO {// 员工信息VO
     /**
      * 基本工资
      */
-    private Integer baseSalary;
+    private BigDecimal baseSalary;
 
     /**
      * 岗位工资
      */
-    private Integer jobSalary;
+    private BigDecimal jobSalary;
 
     /**
      * 岗位级别
