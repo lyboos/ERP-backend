@@ -38,5 +38,5 @@ public class PaymentVO implements SheetWithContentVO<PaymentContentVO> {
      */
     private ReceiptState state;
 
-    private List<ReceiptContentVO> sheetContent;
+    List<ReceiptContentVO> sheetContent;
 }
