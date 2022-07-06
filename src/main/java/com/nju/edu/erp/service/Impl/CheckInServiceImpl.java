@@ -1,9 +1,9 @@
 package com.nju.edu.erp.service.Impl;
 
-import com.nju.edu.erp.dao.HumanResourcesDao;
+import com.nju.edu.erp.dao.CheckInDao;
 import com.nju.edu.erp.model.po.checkInPO;
 import com.nju.edu.erp.model.vo.StaffInfoVO;
-import com.nju.edu.erp.service.HumanResourcesService;
+import com.nju.edu.erp.service.CheckInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +13,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
-public class HumanResourcesServiceImpl implements HumanResourcesService {
+public class CheckInServiceImpl implements CheckInService {
 
-    private final HumanResourcesDao humanResourcesDao;
+    private final CheckInDao checkInDao;
 
     @Autowired
-    public HumanResourcesServiceImpl(HumanResourcesDao humanResourcesDao){
-        this.humanResourcesDao = humanResourcesDao;
+    public CheckInServiceImpl(CheckInDao checkInDao){
+        this.checkInDao = checkInDao;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class HumanResourcesServiceImpl implements HumanResourcesService {
         try{
             Date _date =dateFormat.parse(date);
             checkInPO InPO = new checkInPO(staffInfoVO.getName(),_date);
-            return humanResourcesDao.checkIn(InPO);
+            return checkInDao.checkIn(InPO);
         }catch (ParseException e) {
             return 0;
         }

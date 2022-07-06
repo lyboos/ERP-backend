@@ -4,14 +4,7 @@ import com.nju.edu.erp.model.vo.StaffInfoVO;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface HumanResourcesService {
-    /**
-     * 员工入职
-     */
-
-    /**
-     * 设定基本信息
-     */
+public interface CheckInService {
 
     /**
      * 员工打卡
