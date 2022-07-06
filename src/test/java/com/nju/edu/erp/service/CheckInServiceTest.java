@@ -10,12 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
-class HumanResourcesServiceTest {
+class CheckInServiceTest {
     @Autowired
-    HumanResourcesService humanResourcesService;
+    CheckInService checkInService;
     StaffInfoVO staffInfoVO = new StaffInfoVO(1,"zh","男","2002-03-21","1234567","xxx",new BigDecimal(1),new BigDecimal(2),3,new SalariedClassification(),new MonthlySchedule(),"hhh");
 //    @Test
 //    void checkIn() {
@@ -25,7 +23,7 @@ class HumanResourcesServiceTest {
 
     @Test
     void checkIn_1() {
-        int res = humanResourcesService.checkIn(staffInfoVO,"2020-01-30");
+        int res = checkInService.checkIn(staffInfoVO,"2020-02-01");
         Assertions.assertEquals(1,res);
     }
 }

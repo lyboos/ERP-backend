@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Mapper
-public interface HumanResourcesDao {
+public interface CheckInDao {
 
     int checkIn(checkInPO InPO);
 }
