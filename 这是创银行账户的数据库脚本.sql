@@ -21,3 +21,5 @@ values (1,'LYBOOS',1200);
 
 INSERT INTO bankaccount (id, name, remaining_sum)
 values (2,'hjb',220000);
+
+alter table bankaccount modify id varchar(31) not null comment 'id';
