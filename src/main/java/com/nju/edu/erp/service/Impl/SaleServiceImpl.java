@@ -56,6 +56,14 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
+    public BigDecimal getMonthAmountBySalesman(String salesman) {
+        Date date = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
+        String month = df.format(date);
+        return saleSheetDao.getMonthAmountBySalesman(salesman,month);
+    }
+
+    @Override
     @Transactional
     public void makeSaleSheet(UserVO userVO, SaleSheetVO saleSheetVO) {
         // TODO (done)

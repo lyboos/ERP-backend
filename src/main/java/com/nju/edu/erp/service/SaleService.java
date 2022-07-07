@@ -6,11 +6,12 @@ import com.nju.edu.erp.model.vo.sale.SaleSheetVO;
 import com.nju.edu.erp.model.vo.UserVO;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
 public interface SaleService {
-
+    BigDecimal getMonthAmountBySalesman(String salesman);
     /**
      * 指定销售单
      * @param userVO

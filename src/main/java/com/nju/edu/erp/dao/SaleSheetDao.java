@@ -2,14 +2,14 @@ package com.nju.edu.erp.dao;
 
 
 import com.nju.edu.erp.enums.sheetState.SaleSheetState;
+import com.nju.edu.erp.model.po.CustomerPurchaseAmountPO;
 import com.nju.edu.erp.model.po.SaleSheetContentPO;
 import com.nju.edu.erp.model.po.SaleSheetPO;
-import com.nju.edu.erp.model.po.CustomerPurchaseAmountPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Repository
 @Mapper
@@ -21,5 +21,14 @@ public interface SaleSheetDao extends SheetWithContentDao<SaleSheetPO, SaleSheet
      * @param endTime 结束时间
      * @return
      */
+
     CustomerPurchaseAmountPO getMaxAmountCustomerOfSalesmanByTime(String salesman, Date beginTime,Date endTime);
+
+    /**
+     * 用来获得本月的某个销售员的销售总额（折让后）
+     * @param salesman 销售人员名字
+     * @param month 本年本月
+     * @return 销售总额
+     */
+    BigDecimal getMonthAmountBySalesman(String salesman, String month);
 }
