@@ -1,5 +1,6 @@
 package com.nju.edu.erp.model.po;
 
+import com.nju.edu.erp.enums.sheetState.SalarySheetState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,6 +48,10 @@ public class SalarySheetPO implements SheetPO {
      * 实发金额
      */
     private BigDecimal finalSalary;
+
+    private SalarySheetState state;
+
+    private Boolean isBonus;
 
     private Date createTime;
 }
