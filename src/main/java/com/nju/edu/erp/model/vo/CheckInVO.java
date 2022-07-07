@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class checkInVO {
+public class CheckInVO {
     /**
      * 姓名
      */

@@ -6,7 +6,10 @@
         insert into checkin (name, date) VALUES (#{name},#{date})
     </insert>
 
-    <resultMap id="checkInPO" type="com.nju.edu.erp.model.po.checkInPO">
+    <select id="findAllByDate" resultMap="checkInPO">
+        select * from checkin where date = #{date}
+    </select>
+    <resultMap id="checkInPO" type="com.nju.edu.erp.model.po.CheckInPO">
         <id column="name" property="name"></id>
         <id column="date" property="date"></id>
     </resultMap>

@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class checkInPO {
+public class CheckInPO {
     /**
      * 姓名
      */
