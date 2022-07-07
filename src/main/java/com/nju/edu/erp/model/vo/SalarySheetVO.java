@@ -53,5 +53,5 @@ public class SalarySheetVO implements SheetVO {
 
     private Boolean isBonus;
 
-    private Date createTime;
+    private Date createTime; // 认为是发薪时间，所以如果是12月的话可能是年终奖bonus
 }

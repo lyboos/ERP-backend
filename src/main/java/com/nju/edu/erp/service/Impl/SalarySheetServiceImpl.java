@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +45,12 @@ public class SalarySheetServiceImpl implements SalarySheetService {
         SalarySheetPO sheetPO = new SalarySheetPO();
         BeanUtils.copyProperties(sheetVO, sheetPO);
 
+        // 如果是年终奖，计入12月
         sheetPO.setCreateTime(new Date());
+        if (sheetVO.getIsBonus()) {
+            sheetPO.getCreateTime().setMonth(Calendar.DECEMBER);
+        }
+
         SalarySheetPO latest = salarySheetDao.getLatest();
         String id = IdGenerator.generateSheetId(latest == null? null : latest.getId(), "SKD");
         sheetPO.setId(id);
