@@ -54,4 +54,12 @@ public class CheckInServiceImpl implements CheckInService {
         return res;
     }
 
+    @Override
+    public int checkInCount(String name) {
+        Date date=new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
+        String month = df.format(date);
+        return checkInDao.checkInCount(name,month);
+    }
+
 }

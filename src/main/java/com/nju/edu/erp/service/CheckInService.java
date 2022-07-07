@@ -21,4 +21,11 @@ public interface CheckInService {
      * @return 打卡人员名单
      */
     List<CheckInVO> findAllByDate(String date);
+
+    /**
+     * 获得本月此人的打卡总数
+     * @param name 姓名
+     * @return
+     */
+    int checkInCount(String name);
 }

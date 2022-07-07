@@ -9,23 +9,13 @@
     <select id="findAllByDate" resultMap="checkInPO">
         select * from checkin where date = #{date}
     </select>
+
+    <select id="checkInCount" resultType="java.lang.Integer">
+        select count(checkin.date) from checkin where name = #{name} and DATE_FORMAT(date,'%Y-%m') = #{month}
+    </select>
+
     <resultMap id="checkInPO" type="com.nju.edu.erp.model.po.CheckInPO">
         <id column="name" property="name"></id>
         <id column="date" property="date"></id>
     </resultMap>
-
-<!--    <resultMap id="StaffInfoPO" type="com.nju.edu.erp.model.po.StaffInfoPO">-->
-<!--        <id column="id" property="id"></id>-->
-<!--        <result column="name" property="name"></result>-->
-<!--        <result column="sex" property="sex"></result>-->
-<!--        <result column="birthday" property="birthday"></result>-->
-<!--        <result column="phone" property="phone"></result>-->
-<!--        <result column="job" property="job"></result>-->
-<!--        <result column="base_salary" property="baseSalary"></result>-->
-<!--        <result column="job_salary" property="jobSalary"></result>-->
-<!--        <result column="level" property="level"></result>-->
-<!--        <result column="payment_classification" property="paymentClassification"></result>-->
-<!--        <result column="payment_schedule" property="paymentSchedule"></result>-->
-<!--        <result column="salary_account" property="salaryAccount"></result>-->
-<!--    </resultMap>-->
 </mapper>

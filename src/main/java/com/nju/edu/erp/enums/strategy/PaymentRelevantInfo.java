@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class PaymentRelevantInfo {
+    private String name;
     private BigDecimal baseSalary; // from StaffInfo.baseSalary
     private BigDecimal commission;
 }

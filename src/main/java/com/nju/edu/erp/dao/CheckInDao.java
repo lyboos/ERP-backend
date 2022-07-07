@@ -14,4 +14,6 @@ public interface CheckInDao {
     int checkIn(CheckInPO InPO);
 
     List<CheckInPO> findAllByDate(Date date);
+
+    Integer checkInCount(String name,String month);
 }

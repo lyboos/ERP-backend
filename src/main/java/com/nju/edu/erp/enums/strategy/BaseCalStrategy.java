@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class BaseCalStrategy implements PaymentCalStrategyInterface {
@@ -19,8 +21,10 @@ public class BaseCalStrategy implements PaymentCalStrategyInterface {
      */
     @Override
     public BigDecimal calSalary(PaymentRelevantInfo p) {
-        assert checkInDao != null;
-        return p.getBaseSalary();
+        Date date=new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
+        String month = df.format(date);
+        return p.getBaseSalary().multiply(new BigDecimal(checkInDao.checkInCount(p.getName(),month)/30));
     }
 
     public static BaseCalStrategy getInstance() {
