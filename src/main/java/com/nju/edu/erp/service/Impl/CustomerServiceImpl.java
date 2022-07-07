@@ -65,7 +65,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public int deleteCustomer(CustomerVO vo) {
         CustomerPO customerPO = new CustomerPO(vo.getId(),vo.getType(),vo.getLevel(),vo.getName(),vo.getPhone(),vo.getAddress(),vo.getZipcode(),vo.getEmail(),vo.getLineOfCredit(),vo.getReceivable(),vo.getPayable(),vo.getOperator());
-
         return customerDao.deleteCustomer(customerPO);
     }
 

@@ -1,16 +1,17 @@
 package com.nju.edu.erp.service.Impl;
 
 import com.nju.edu.erp.dao.CheckInDao;
-import com.nju.edu.erp.model.po.checkInPO;
-import com.nju.edu.erp.model.vo.StaffInfoVO;
+import com.nju.edu.erp.model.po.CheckInPO;
+import com.nju.edu.erp.model.vo.CheckInVO;
 import com.nju.edu.erp.service.CheckInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class CheckInServiceImpl implements CheckInService {
@@ -23,28 +24,34 @@ public class CheckInServiceImpl implements CheckInService {
     }
 
     @Override
-    public int checkIn(StaffInfoVO staffInfoVO, String date) {
+    public int checkIn(CheckInVO checkInVO) {
         DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
         try{
-            Date _date =dateFormat.parse(date);
-            checkInPO InPO = new checkInPO(staffInfoVO.getName(),_date);
+            Date _date =dateFormat.parse(checkInVO.getDate());
+            CheckInPO InPO = new CheckInPO(checkInVO.getName(),_date);
             return checkInDao.checkIn(InPO);
-        }catch (ParseException e) {
+        }catch (Exception e) {
             return 0;
         }
     }
 
-//    @Override
-//    public int checkIn(String name, String date) {
-//        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
-//        try{
-//            Date _date =dateFormat.parse(date);
-//            //checkInPO InPO = new checkInPO(staffInfoVO.getName(),_date);
-//            checkInPO InPO = new checkInPO(name,_date);
-//            return humanResourcesDao.checkIn(InPO);
-//        }catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        return 0;
-//    }
+    @Override
+    public List<CheckInVO> findAllByDate(String date) {
+        List<CheckInVO> res = new ArrayList<>();
+        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        try{
+            Date _date =dateFormat.parse(date);
+            List<CheckInPO> all = checkInDao.findAllByDate(_date);
+            for (CheckInPO checkInPO:all){
+                CheckInVO checkInVO = new CheckInVO();
+                checkInVO.setName(checkInPO.getName());
+                checkInVO.setDate(checkInPO.getDate().toString());
+                res.add(checkInVO);
+            }
+        }catch (Exception e) {
+            return null;
+        }
+        return res;
+    }
+
 }

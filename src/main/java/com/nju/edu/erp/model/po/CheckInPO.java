@@ -1,4 +1,4 @@
-package com.nju.edu.erp.model.vo;
+package com.nju.edu.erp.model.po;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class checkInVO {
+public class CheckInPO {
     /**
      * 姓名
      */
