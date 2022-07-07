@@ -6,6 +6,7 @@ import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.service.SalarySheetService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -55,5 +56,58 @@ public class SalarySheetServiceImpl implements SalarySheetService {
     @Override
     public SalarySheetVO getSheetById(String sheetId) {
         return null;
+    }
+
+    /**
+     *
+     * @param rawSalary (monthly, equals to yearly / 12)
+     */
+    private static BigDecimal calTaxes(BigDecimal rawSalary) {
+        // 失业保险为0.5%
+        // 住房公积金按8%计算
+        BigDecimal taxesSum = rawSalary.multiply(BigDecimal.valueOf(0.085));
+
+        rawSalary = rawSalary.subtract(taxesSum);
+
+        // 5000免征额
+        rawSalary = rawSalary.subtract(BigDecimal.valueOf(5000));
+
+        if (rawSalary.compareTo(BigDecimal.ZERO) < 0) return taxesSum;
+
+        BigDecimal[] bracket = {
+                BigDecimal.valueOf(0),
+                BigDecimal.valueOf(36000),
+                BigDecimal.valueOf(144000),
+                BigDecimal.valueOf(300000),
+                BigDecimal.valueOf(420000),
+                BigDecimal.valueOf(660000),
+                BigDecimal.valueOf(960000),
+        };
+        BigDecimal[] percent = {
+                BigDecimal.valueOf(0.03),
+                BigDecimal.valueOf(0.10),
+                BigDecimal.valueOf(0.20),
+                BigDecimal.valueOf(0.25),
+                BigDecimal.valueOf(0.30),
+                BigDecimal.valueOf(0.35),
+                BigDecimal.valueOf(0.45),
+        };
+        BigDecimal[] base = new BigDecimal[bracket.length];
+        base[0] = BigDecimal.ZERO;
+        for (int i = 1; i < base.length; i++) {
+            base[i] = base[i - 1].add((bracket[i].subtract(bracket[i - 1])).multiply(percent[i - 1]));
+        }
+
+        int level = 0;
+        for (int i = 1; i < base.length; i++) {
+            if (rawSalary.compareTo(bracket[i]) > 0) {
+                level++;
+            }
+        }
+
+        BigDecimal tax;
+        tax = base[level].add(percent[level].multiply(rawSalary.subtract(bracket[level])));
+        taxesSum = taxesSum.add(tax);
+        return taxesSum;
     }
 }
