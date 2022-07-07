@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,5 +18,5 @@ public class checkInVO {
     /**
      * 签到日期
      */
-    private Date date;
+    private String date;
 }
