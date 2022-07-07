@@ -79,7 +79,7 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
 
         // 每件商品的实际折扣率 = 折扣 - 消费券 / 订单总价
         // duplicated for issue of losing precision when rounding.
-        // see better way below
+        // see better way below 防御式编程
         BigDecimal discount = saleSheet.getDiscount();
         BigDecimal voucher = saleSheet.getVoucherAmount();
         BigDecimal saleRawTotalAmount = saleSheet.getRawTotalAmount();
@@ -144,6 +144,7 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
         return res;
     }
 
+    // Code03
     /**
      * 根据销售退货单id进行审批(state == "待二级审批"/"审批完成"/"审批失败")
      * 在controller层进行权限控制
@@ -196,6 +197,7 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
                             } else {
                                 quantity -= outputContent.getQuantity();
                                 WarehousePO increment = warehouseDao.findOneByPidAndBatchId(pid, outputContent.getBatchId());
+                                // 不存在对应货物。防御式编程
                                 if (increment == null) throw new RuntimeException("单据发生错误！请联系管理员！");
                                 increment.setQuantity(outputContent.getQuantity());
                                 warehouseDao.increaseQuantity(increment);
@@ -205,6 +207,8 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
                     }
 
                     if (quantity > 0) {
+                        // Code04
+                        // 退货数量超出购买数量。防御式编程
                         saleReturnsSheetDao.updateState(saleReturnsSheetId, SaleReturnsSheetState.FAILURE);
                         throw new RuntimeException("退货数量大于购买数量！审批失败！");
                     }

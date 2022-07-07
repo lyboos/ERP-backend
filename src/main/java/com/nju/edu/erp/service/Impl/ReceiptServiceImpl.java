@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+// 面向接口编程。详见父接口
 @Service
 public class ReceiptServiceImpl implements ReceiptService {
 

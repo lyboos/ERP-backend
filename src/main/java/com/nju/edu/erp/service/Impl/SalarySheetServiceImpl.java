@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 
+// 面向接口编程。详见父接口
 @Service
 public class SalarySheetServiceImpl implements SalarySheetService {
 
@@ -63,17 +64,20 @@ public class SalarySheetServiceImpl implements SalarySheetService {
      * @param rawSalary (monthly, equals to yearly / 12)
      */
     private static BigDecimal calTaxes(BigDecimal rawSalary) {
+        // Code03
         // 失业保险为0.5%
-        // 住房公积金按8%计算
-        BigDecimal taxesSum = rawSalary.multiply(BigDecimal.valueOf(0.085));
+        // 住房公积金7%~12%，按10%计算
+        BigDecimal taxesSum = rawSalary.multiply(BigDecimal.valueOf(0.105));
 
         rawSalary = rawSalary.subtract(taxesSum);
 
         // 5000免征额
         rawSalary = rawSalary.subtract(BigDecimal.valueOf(5000));
 
+        // 防御式编程
         if (rawSalary.compareTo(BigDecimal.ZERO) < 0) return taxesSum;
 
+        // 表驱动计算税款
         BigDecimal[] bracket = {
                 BigDecimal.valueOf(0),
                 BigDecimal.valueOf(36000),
@@ -104,10 +108,10 @@ public class SalarySheetServiceImpl implements SalarySheetService {
                 level++;
             }
         }
-
         BigDecimal tax;
         tax = base[level].add(percent[level].multiply(rawSalary.subtract(bracket[level])));
         taxesSum = taxesSum.add(tax);
+
         return taxesSum;
     }
 }
