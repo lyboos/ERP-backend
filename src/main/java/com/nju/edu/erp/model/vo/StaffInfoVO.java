@@ -1,7 +1,7 @@
 package com.nju.edu.erp.model.vo;
 
-import com.nju.edu.erp.model.PaymentStrategy.PaymentClassification;
-import com.nju.edu.erp.model.PaymentStrategy.PaymentSchedule;
+import com.nju.edu.erp.enums.strategy.PaymentCalculatingStrategy;
+import com.nju.edu.erp.enums.strategy.PaymentScheduleStrategy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -51,9 +51,9 @@ public class StaffInfoVO {// 员工信息VO
     private BigDecimal baseSalary;
 
     /**
-     * 岗位工资
+     * 提成工资
      */
-    private BigDecimal jobSalary;
+    private BigDecimal commission;
 
     /**
      * 岗位级别
@@ -63,12 +63,12 @@ public class StaffInfoVO {// 员工信息VO
     /**
      * 薪资计算方式
      */
-    private PaymentClassification paymentClassification;
+    private PaymentCalculatingStrategy paymentCalculatingStrategy;
 
     /**
      * 薪资发放方式
      */
-    private PaymentSchedule paymentSchedule;
+    private PaymentScheduleStrategy paymentScheduleStrategy;
 
     /**
      * 工资卡账户

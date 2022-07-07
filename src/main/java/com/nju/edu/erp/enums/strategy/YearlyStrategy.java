@@ -14,7 +14,8 @@ public class YearlyStrategy implements PaymentCalStrategyInterface {
      */
     @Override
     public BigDecimal calSalary(PaymentRelevantInfo p) {
-        return null;
+        //因为是年薪所以直接返回
+        return p.getBaseSalary();
     }
 
     public static YearlyStrategy getInstance() {

@@ -1,11 +1,15 @@
 package com.nju.edu.erp.model.po;
 
+import com.nju.edu.erp.enums.strategy.PaymentCalculatingStrategy;
+import com.nju.edu.erp.enums.strategy.PaymentScheduleStrategy;
 import com.nju.edu.erp.model.PaymentStrategy.PaymentClassification;
 import com.nju.edu.erp.model.PaymentStrategy.PaymentSchedule;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 
 @Data
@@ -16,7 +20,7 @@ public class StaffInfoPO {// 员工信息PO
     /**
      * id
      */
-    private int id;
+    private Integer id;
 
     /**
      * 姓名
@@ -46,12 +50,12 @@ public class StaffInfoPO {// 员工信息PO
     /**
      * 基本工资
      */
-    private Integer baseSalary;
+    private BigDecimal baseSalary;
 
     /**
-     * 岗位工资
+     * 提成工资
      */
-    private Integer jobSalary;
+    private BigDecimal commission;
 
     /**
      * 岗位级别
@@ -61,12 +65,12 @@ public class StaffInfoPO {// 员工信息PO
     /**
      * 薪资计算方式
      */
-    private PaymentClassification paymentClassification;
+    private PaymentCalculatingStrategy paymentCalculatingStrategy;
 
     /**
      * 薪资发放方式
      */
-    private PaymentSchedule paymentSchedule;
+    private PaymentScheduleStrategy paymentScheduleStrategy;
 
     /**
      * 工资卡账户
