@@ -16,7 +16,7 @@ create table staff_info
     gender                       varchar(4)     not null,
     birthday                     date           null,
     phone                        varchar(15)    null,
-    job                          varchar(31)    null,
+    role                         varchar(31)    null,
     base_salary                  decimal(10, 2) null,
     commission                   decimal(10, 2) null,
     level                        int            null,

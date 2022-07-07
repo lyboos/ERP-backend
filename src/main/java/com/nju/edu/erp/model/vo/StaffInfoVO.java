@@ -1,5 +1,6 @@
 package com.nju.edu.erp.model.vo;
 
+import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.enums.strategy.PaymentCalculatingStrategy;
 import com.nju.edu.erp.enums.strategy.PaymentScheduleStrategy;
 import lombok.AllArgsConstructor;
@@ -43,7 +44,7 @@ public class StaffInfoVO {// 员工信息VO
     /**
      * 工作岗位
      */
-    private String job;
+    private Role role;
 
     /**
      * 基本工资

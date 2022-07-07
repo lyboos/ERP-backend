@@ -1,9 +1,8 @@
 package com.nju.edu.erp.model.po;
 
+import com.nju.edu.erp.enums.Role;
 import com.nju.edu.erp.enums.strategy.PaymentCalculatingStrategy;
 import com.nju.edu.erp.enums.strategy.PaymentScheduleStrategy;
-import com.nju.edu.erp.model.PaymentStrategy.PaymentClassification;
-import com.nju.edu.erp.model.PaymentStrategy.PaymentSchedule;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,7 +44,7 @@ public class StaffInfoPO {// 员工信息PO
     /**
      * 工作岗位
      */
-    private String job;
+    private Role role;
 
     /**
      * 基本工资
