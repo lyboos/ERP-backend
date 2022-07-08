@@ -55,7 +55,7 @@ public class SalarySheetServiceImpl implements SalarySheetService {
         String id = IdGenerator.generateSheetId(latest == null? null : latest.getId(), "SKD");
         sheetPO.setId(id);
         StaffInfoPO staffInfoPO = new StaffInfoPO(); // TODO: REPLACE WITH StaffService
-        sheetPO.setSalaryAccount(staffInfoPO.getSalaryAccount());
+        sheetPO.setSalaryAccount(staffInfoPO.getBankAccount());
 
         // 防御式编程
         if (!(sheetPO.getIsBonus() || staffInfoPO.getPaymentScheduleStrategy().isPayday()))

@@ -74,4 +74,12 @@ public class StaffServiceImpl implements StaffService {
             return 0;
         }
     }
+
+    @Override
+    public StaffInfoVO getStaffByName(String name) {
+        StaffInfoVO staffInfoVO = new StaffInfoVO();
+        StaffInfoPO staffInfoPO= staffDao.getStaffByName(name);
+        BeanUtils.copyProperties(staffInfoVO,staffInfoPO);
+        return staffInfoVO;
+    }
 }
