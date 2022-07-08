@@ -20,8 +20,8 @@ create table staff_info
     base_salary                  decimal(10, 2) null,
     commission                   decimal(10, 2) null,
     level                        int            null,
-    payment_calculating_strategy varchar(31)    null comment '用数字代表计算方式，暂定1代表固定工资，2代表提成制。',
-    payment_schedule_strategy    varchar(31)    null comment '用数字来区分不同的发放时间，暂定1代表月薪，2代表年薪。',
+    payment_calculating_strategy varchar(31)    null,
+    payment_schedule_strategy    varchar(31)    null,
     bank_account_id              varchar(31)    not null,
     constraint staff_info_id_uindex
         unique (id),
@@ -30,4 +30,5 @@ create table staff_info
 )
     comment '员工信息表，包括id、姓名、性别、出生日期、手机、工作岗位、基本工资、
 提成、岗位级别、薪资计算方式、薪资方法方式、工资卡账户。';
+
 

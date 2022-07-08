@@ -24,12 +24,14 @@ public class CheckInServiceImpl implements CheckInService {
     }
 
     @Override
-    public int checkIn(CheckInVO checkInVO) {
-        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+    public int checkIn(String name) {
         try{
-            Date _date =dateFormat.parse(checkInVO.getDate());
-            CheckInPO InPO = new CheckInPO(checkInVO.getName(),_date);
-            return checkInDao.checkIn(InPO);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = formatter.format(new Date());
+            String tmp = dateString;
+            Date date = formatter.parse(tmp);
+            CheckInPO checkInPO = new CheckInPO(name,date);
+            return checkInDao.checkIn(checkInPO);
         }catch (Exception e) {
             return 0;
         }
