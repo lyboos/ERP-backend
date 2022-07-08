@@ -63,8 +63,8 @@ public class ReceiptServiceImpl implements ReceiptService {
             receiptContentPOList.add(contentPO);
         }
         receiptPO.setTotalAmount(totalAmount);
-        receiptDao.saveBatch(receiptContentPOList);
         receiptDao.save(receiptPO);
+        receiptDao.saveBatch(receiptContentPOList);
     }
 
     /**

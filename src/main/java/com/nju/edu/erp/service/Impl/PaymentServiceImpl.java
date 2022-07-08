@@ -62,8 +62,8 @@ public class PaymentServiceImpl implements PaymentService {
             paymentContentPOList.add(contentPO);
         }
         paymentPO.setTotalAmount(totalAmount);
-        paymentDao.saveBatch(paymentContentPOList);
         paymentDao.save(paymentPO);
+        paymentDao.saveBatch(paymentContentPOList);
     }
 
     /**
