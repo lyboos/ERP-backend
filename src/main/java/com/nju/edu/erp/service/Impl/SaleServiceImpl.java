@@ -35,10 +35,6 @@ public class SaleServiceImpl implements SaleService {
 
     private final SaleSheetDao saleSheetDao;
 
-    private final ProductDao productDao;
-
-    private final CustomerDao customerDao;
-
     private final ProductService productService;
 
     private final CustomerService customerService;
@@ -46,10 +42,8 @@ public class SaleServiceImpl implements SaleService {
     private final WarehouseService warehouseService;
 
     @Autowired
-    public SaleServiceImpl(SaleSheetDao saleSheetDao, ProductDao productDao, CustomerDao customerDao, ProductService productService, CustomerService customerService, WarehouseService warehouseService) {
+    public SaleServiceImpl(SaleSheetDao saleSheetDao, ProductService productService, CustomerService customerService, WarehouseService warehouseService) {
         this.saleSheetDao = saleSheetDao;
-        this.productDao = productDao;
-        this.customerDao = customerDao;
         this.productService = productService;
         this.customerService = customerService;
         this.warehouseService = warehouseService;
@@ -85,7 +79,7 @@ public class SaleServiceImpl implements SaleService {
             sContentPO.setSheetId(id);
             BigDecimal unitPrice = sContentPO.getUnitPrice();
             if (unitPrice == null) {
-                ProductPO product = productDao.findById(content.getPid());
+                ProductInfoVO product = productService.getOneProductByPid(content.getPid());
                 unitPrice = product.getPurchasePrice();
                 sContentPO.setUnitPrice(unitPrice);
             }
@@ -108,7 +102,11 @@ public class SaleServiceImpl implements SaleService {
         // 依赖的dao层部分方法未提供，需要自己实现
         List<SaleSheetVO> res = new ArrayList<>();
         List<SaleSheetPO> all;
-        all = saleSheetDao.findAll().stream().filter(po -> po.getState().equals(state)).collect(Collectors.toList());
+        if (state == null) {
+            all = saleSheetDao.findAll();
+        } else {
+            all = saleSheetDao.findAll().stream().filter(po -> po.getState().equals(state)).collect(Collectors.toList());
+        }
         for(SaleSheetPO po: all) {
             SaleSheetVO vo = new SaleSheetVO();
             BeanUtils.copyProperties(po, vo);

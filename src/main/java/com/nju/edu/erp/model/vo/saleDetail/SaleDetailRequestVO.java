@@ -1,5 +1,6 @@
-package com.nju.edu.erp.model.vo;
+package com.nju.edu.erp.model.vo.saleDetail;
 
+import com.nju.edu.erp.model.vo.ReadOnlyRequestVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SaleDetailRequestVO {
+public class SaleDetailRequestVO implements ReadOnlyRequestVO {
     private Date startTime;
 
     private Date endTime;

@@ -1,9 +1,7 @@
 package com.nju.edu.erp.service.Impl;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.nju.edu.erp.dao.PaymentDao;
 import com.nju.edu.erp.enums.sheetState.PaymentState;
-import com.nju.edu.erp.enums.sheetState.ReceiptState;
 import com.nju.edu.erp.model.po.CustomerPO;
 import com.nju.edu.erp.model.po.PaymentContentPO;
 import com.nju.edu.erp.model.po.PaymentPO;
@@ -11,7 +9,7 @@ import com.nju.edu.erp.model.vo.Payment.PaymentContentVO;
 import com.nju.edu.erp.model.vo.Payment.PaymentVO;
 import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.service.CustomerService;
-import com.nju.edu.erp.service.SheetService;
+import com.nju.edu.erp.service.PaymentService;
 import com.nju.edu.erp.utils.IdGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +17,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class PaymentServiceImpl implements SheetService<PaymentPO, PaymentVO, PaymentState> {
+public class PaymentServiceImpl implements PaymentService {
 
     PaymentDao paymentDao;
 
