@@ -19,7 +19,7 @@ public class SaleDetailRequestVO implements ReadOnlyRequestVO {
 
     private String productName;
 
-    private String CustomerName;
+    private String customerName;
 
     private String operatorName;
 }
