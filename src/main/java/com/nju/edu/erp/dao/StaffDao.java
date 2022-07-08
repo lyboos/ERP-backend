@@ -23,10 +23,10 @@ public interface StaffDao {
      * @param baseSalary 等
      * @return 1代表成功，0代表失败
      */
-    int updateBaseSalary(BigDecimal baseSalary);
-    int updateLevel(Integer level);
-    int updatePaymentCalStrategy(PaymentCalculatingStrategy pcs);
-    int updatePaymentScheduleStrategy(PaymentScheduleStrategy pss);
+    int updateBaseSalary(BigDecimal baseSalary,Integer id);
+    int updateLevel(Integer level,Integer id);
+    int updatePaymentCalStrategy(PaymentCalculatingStrategy pcs,Integer id);
+    int updatePaymentScheduleStrategy(PaymentScheduleStrategy pss,Integer id);
 
     /**
      * 根据名字查找员工相关信息

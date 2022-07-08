@@ -40,36 +40,36 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public int updateBaseSalary(BigDecimal baseSalary) {
+    public int updateBaseSalary(BigDecimal baseSalary,Integer id) {
         try{
-            return staffDao.updateBaseSalary(baseSalary);
+            return staffDao.updateBaseSalary(baseSalary,id);
         }catch (Exception e){
             return 0;
         }
     }
 
     @Override
-    public int updateLevel(Integer level) {
+    public int updateLevel(Integer level,Integer id) {
         try{
-            return staffDao.updateLevel(level);
+            return staffDao.updateLevel(level,id);
         }catch (Exception e){
             return 0;
         }
     }
 
     @Override
-    public int updatePaymentCalStrategy(PaymentCalculatingStrategy pcs) {
+    public int updatePaymentCalStrategy(PaymentCalculatingStrategy pcs,Integer id) {
         try{
-            return staffDao.updatePaymentCalStrategy(pcs);
+            return staffDao.updatePaymentCalStrategy(pcs,id);
         }catch (Exception e){
             return 0;
         }
     }
 
     @Override
-    public int updatePaymentScheduleStrategy(PaymentScheduleStrategy pss) {
+    public int updatePaymentScheduleStrategy(PaymentScheduleStrategy pss,Integer id) {
         try{
-            return staffDao.updatePaymentScheduleStrategy(pss);
+            return staffDao.updatePaymentScheduleStrategy(pss,id);
         }catch (Exception e){
             return 0;
         }

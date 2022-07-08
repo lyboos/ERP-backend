@@ -21,10 +21,10 @@ public interface StaffService {
      * @param baseSalary
      * @return
      */
-    int updateBaseSalary(BigDecimal baseSalary);
-    int updateLevel(Integer level);
-    int updatePaymentCalStrategy(PaymentCalculatingStrategy pcs);
-    int updatePaymentScheduleStrategy(PaymentScheduleStrategy pss);
+    int updateBaseSalary(BigDecimal baseSalary,Integer id);
+    int updateLevel(Integer level,Integer id);
+    int updatePaymentCalStrategy(PaymentCalculatingStrategy pcs,Integer id);
+    int updatePaymentScheduleStrategy(PaymentScheduleStrategy pss,Integer id);
 
     StaffInfoVO getStaffByName(String name);
 }
