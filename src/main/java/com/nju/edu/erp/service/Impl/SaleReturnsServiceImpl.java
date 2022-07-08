@@ -215,6 +215,13 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
                         throw new RuntimeException("退货数量大于购买数量！审批失败！");
                     }
                 }
+
+                // 防止退款大于实际付款 防御式编程
+                SaleSheetPO saleSheetPO = saleSheetDao.findSheetById(saleSheetId);
+                BigDecimal pay = saleSheetPO.getFinalAmount();
+                if (pay.compareTo(saleReturnsSheet.getFinalAmount()) < 0)
+                    throw new RuntimeException("退款大于对应销售单实际支出，请联系销售人员：" + saleSheetPO.getOperator() + "获得支持");
+
                 Integer customerId = saleSheetDao.findSheetById(saleSheetId).getSupplier();
                 CustomerPO customer = customerService.findCustomerById(customerId);
                 customer.setReceivable(customer.getReceivable().subtract(saleReturnsSheet.getFinalAmount()));

@@ -4,8 +4,10 @@ import com.nju.edu.erp.enums.sheetState.SaleSheetState;
 import com.nju.edu.erp.model.po.CustomerPurchaseAmountPO;
 import com.nju.edu.erp.model.vo.sale.SaleSheetVO;
 import com.nju.edu.erp.model.vo.UserVO;
+import com.nju.edu.erp.service.Impl.promotionStrategy.PromotionStrategy;
 import org.springframework.stereotype.Service;
 
+import javax.sound.sampled.Port;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -48,4 +50,10 @@ public interface SaleService {
      * @return 销售单全部信息
      */
     SaleSheetVO getSaleSheetById(String saleSheetId);
+
+    void setUserStrategy(PromotionStrategy strategy);
+
+    void setAdditionalDiscountStrategy(PromotionStrategy strategy);
+
+    void setGiveawayStrategy(PromotionStrategy strategy);
 }

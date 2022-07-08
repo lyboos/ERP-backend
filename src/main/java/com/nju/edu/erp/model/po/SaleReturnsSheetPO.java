@@ -41,7 +41,7 @@ public class SaleReturnsSheetPO implements SheetPO {
      */
     private String remark;
     /**
-     * 折让前总额
+     * 折让前退款商品的总额
      */
     private BigDecimal rawTotalAmount;
     /**

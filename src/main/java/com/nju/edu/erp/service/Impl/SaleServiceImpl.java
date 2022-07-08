@@ -1,7 +1,5 @@
 package com.nju.edu.erp.service.Impl;
 
-import com.nju.edu.erp.dao.CustomerDao;
-import com.nju.edu.erp.dao.ProductDao;
 import com.nju.edu.erp.dao.SaleSheetDao;
 import com.nju.edu.erp.enums.sheetState.SaleSheetState;
 import com.nju.edu.erp.model.po.*;
@@ -12,10 +10,16 @@ import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.model.vo.warehouse.WarehouseOutputFormContentVO;
 import com.nju.edu.erp.model.vo.warehouse.WarehouseOutputFormVO;
 import com.nju.edu.erp.service.CustomerService;
+import com.nju.edu.erp.service.Impl.promotionStrategy.AdditionalDiscountStrategy;
+import com.nju.edu.erp.service.Impl.promotionStrategy.PoorGiveawayStrategy;
+import com.nju.edu.erp.service.Impl.promotionStrategy.LevelDiscountStrategy;
+import com.nju.edu.erp.service.Impl.promotionStrategy.PromotionStrategy;
 import com.nju.edu.erp.service.ProductService;
 import com.nju.edu.erp.service.SaleService;
 import com.nju.edu.erp.service.WarehouseService;
 import com.nju.edu.erp.utils.IdGenerator;
+import jdk.internal.net.http.common.Pair;
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +45,16 @@ public class SaleServiceImpl implements SaleService {
 
     private final WarehouseService warehouseService;
 
+    // 处理顺序在makeSheet方法里定义
+    @Setter
+    private PromotionStrategy userStrategy = new LevelDiscountStrategy(BigDecimal.valueOf(0.01));
+
+    @Setter
+    private PromotionStrategy additionalDiscountStrategy = new AdditionalDiscountStrategy(BigDecimal.ZERO, BigDecimal.ZERO);
+
+    @Setter
+    private PromotionStrategy giveawayStrategy = new PoorGiveawayStrategy(BigDecimal.valueOf(1414180));
+
     @Autowired
     public SaleServiceImpl(SaleSheetDao saleSheetDao, ProductService productService, CustomerService customerService, WarehouseService warehouseService) {
         this.saleSheetDao = saleSheetDao;
@@ -63,6 +77,34 @@ public class SaleServiceImpl implements SaleService {
         // TODO (done)
         // 需要持久化销售单（SaleSheet）和销售单content（SaleSheetContent），其中总价或者折后价格的计算需要在后端进行
         // 需要的service和dao层相关方法均已提供，可以不用自己再实现一遍
+        // 预计算
+        Pair<SaleSheetPO, List<SaleSheetContentPO>> p = cal(userVO, saleSheetVO);
+        SaleSheetPO rawPO = p.first;
+        List<SaleSheetContentPO> rawPOList = p.second;
+
+
+        SaleSheetVO resVO = new SaleSheetVO();
+        BeanUtils.copyProperties(rawPO, resVO);
+        // resVO预处理，为真计算做准备
+        userStrategy.preProcessVO(resVO, saleSheetVO, rawPO, rawPOList);
+        additionalDiscountStrategy.preProcessVO(resVO, saleSheetVO, rawPO, rawPOList);
+        giveawayStrategy.preProcessVO(resVO, saleSheetVO, rawPO, rawPOList);
+
+        Pair<SaleSheetPO, List<SaleSheetContentPO>> processed = cal(userVO, resVO);
+        SaleSheetPO resPO = processed.first;
+        List<SaleSheetContentPO> resList = processed.second;
+        // resPO和resPOList后置处理，赠送、减价等
+        userStrategy.postProcessPO(resPO, resList, saleSheetVO, rawPO, rawPOList);
+        additionalDiscountStrategy.postProcessPO(resPO, resList, saleSheetVO, rawPO, rawPOList);
+        giveawayStrategy.postProcessPO(resPO, resList, saleSheetVO, rawPO, rawPOList);
+
+        saleSheetDao.saveBatch(resList);
+        BigDecimal finalAmount = resPO.getRawTotalAmount().multiply(resPO.getDiscount()).subtract(resPO.getVoucherAmount());
+        resVO.setFinalAmount(finalAmount);
+        saleSheetDao.save(resPO);
+    }
+
+    Pair<SaleSheetPO, List<SaleSheetContentPO>> cal(UserVO userVO, SaleSheetVO saleSheetVO) {
         SaleSheetPO saleSheetPO = new SaleSheetPO();
         BeanUtils.copyProperties(saleSheetVO, saleSheetPO);
         saleSheetPO.setOperator(userVO.getName());
@@ -87,11 +129,8 @@ public class SaleServiceImpl implements SaleService {
             sContentPOList.add(sContentPO);
             totalAmount = totalAmount.add(sContentPO.getTotalPrice());
         }
-        saleSheetDao.saveBatch(sContentPOList);
         saleSheetPO.setRawTotalAmount(totalAmount);
-        BigDecimal finalAmount = saleSheetPO.getRawTotalAmount().multiply(saleSheetPO.getDiscount()).subtract(saleSheetPO.getVoucherAmount());
-        saleSheetPO.setFinalAmount(finalAmount);
-        saleSheetDao.save(saleSheetPO);
+        return new Pair<>(saleSheetPO, sContentPOList);
     }
 
     @Override
