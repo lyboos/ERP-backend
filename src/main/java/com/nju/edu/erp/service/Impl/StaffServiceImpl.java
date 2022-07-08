@@ -28,15 +28,13 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public int createNewStaff(StaffInfoVO staffInfoVO) {
-        try{
+
             UserVO userVO = new UserVO(staffInfoVO.getName(),staffInfoVO.getRole(),"123456");
             StaffInfoPO staffInfoPO = new StaffInfoPO();
             BeanUtils.copyProperties(staffInfoVO,staffInfoPO);
             userService.register(userVO);
             return staffDao.createNewStaff(staffInfoPO);
-        }catch (Exception e){
-            return 0;
-        }
+
     }
 
     @Override
@@ -79,7 +77,7 @@ public class StaffServiceImpl implements StaffService {
     public StaffInfoVO getStaffByName(String name) {
         StaffInfoVO staffInfoVO = new StaffInfoVO();
         StaffInfoPO staffInfoPO= staffDao.getStaffByName(name);
-        BeanUtils.copyProperties(staffInfoVO,staffInfoPO);
+        BeanUtils.copyProperties(staffInfoPO,staffInfoVO);//前面一个是转换前，后一个是转换后
         return staffInfoVO;
     }
 }
