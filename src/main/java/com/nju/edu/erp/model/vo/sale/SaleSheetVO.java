@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 
@@ -60,4 +61,6 @@ public class SaleSheetVO {
      * 进货单具体内容
      */
     List<SaleSheetContentVO> saleSheetContent;
+
+    private Date createTime;
 }

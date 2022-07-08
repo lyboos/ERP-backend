@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -38,4 +39,6 @@ public class PaymentVO implements SheetWithContentVO<PaymentContentVO> {
     private ReceiptState state;
 
     List<PaymentContentVO> sheetContent;
+
+    private Date createTime;
 }

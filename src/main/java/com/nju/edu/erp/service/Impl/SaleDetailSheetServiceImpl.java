@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SaleDetailSheetServiceImpl implements SaleDetailSheetService {
@@ -26,8 +27,13 @@ public class SaleDetailSheetServiceImpl implements SaleDetailSheetService {
 
     @Override
     public SaleDetailReplyVO request(SaleDetailRequestVO request) {
-        List<SaleSheetVO> saleSheetVOList = saleService.getSaleSheetByState(null); // null to get all the sheets
-        List<SaleReturnsSheetVO> returnsSheetVOList = returnsService.getSaleReturnsSheetByState(null); // null to get all the sheets
+        DateComparator dateComparator = new DateComparator(request.getStartTime(), request.getEndTime());
+
+        // null to get all the sheets
+        List<SaleSheetVO> saleSheetVOList = saleService.getSaleSheetByState(null).stream()
+                .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
+        List<SaleReturnsSheetVO> returnsSheetVOList = returnsService.getSaleReturnsSheetByState(null).stream()
+                .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
 
         SaleDetailReplyVO vo = new SaleDetailReplyVO();
         vo.setSaleSheetVOList(saleSheetVOList);

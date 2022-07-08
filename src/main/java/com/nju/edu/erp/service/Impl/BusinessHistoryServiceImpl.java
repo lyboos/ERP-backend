@@ -13,7 +13,9 @@ import com.nju.edu.erp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BusinessHistoryServiceImpl implements BusinessHistoryService {
@@ -40,23 +42,31 @@ public class BusinessHistoryServiceImpl implements BusinessHistoryService {
     @Override
     public BusinessHistoryReplyVO request(BusinessHistoryRequestVO request) {
         BusinessHistoryReplyVO reply = new BusinessHistoryReplyVO();
+        DateComparator dateComparator = new DateComparator(request.getStartTime(), request.getEndTime());
         switch (request.getSheetType()) { // sale: 1, purchase: 2, finance: 3, warehouse: 4
             case 1:
-                List<SaleSheetVO> saleSheetVOList = saleService.getSaleSheetByState(null);
-                List<SaleReturnsSheetVO> saleReturnsSheetVOList = saleReturnsService.getSaleReturnsSheetByState(null);
+                List<SaleSheetVO> saleSheetVOList = saleService.getSaleSheetByState(null).stream()
+                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
+                List<SaleReturnsSheetVO> saleReturnsSheetVOList = saleReturnsService.getSaleReturnsSheetByState(null).stream()
+                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
                 reply.setSaleSheetVOList(saleSheetVOList);
                 reply.setSaleReturnsSheetVOList(saleReturnsSheetVOList);
                 break;
             case 2:
-                List<PurchaseSheetVO> purchaseSheetVOList = purchaseService.getPurchaseSheetByState(null);
-                List<PurchaseReturnsSheetVO> purchaseReturnsSheetVOList = purchaseReturnsService.getPurchaseReturnsSheetByState(null);
+                List<PurchaseSheetVO> purchaseSheetVOList = purchaseService.getPurchaseSheetByState(null).stream()
+                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
+                List<PurchaseReturnsSheetVO> purchaseReturnsSheetVOList = purchaseReturnsService.getPurchaseReturnsSheetByState(null).stream()
+                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
                 reply.setPurchaseSheetVOList(purchaseSheetVOList);
                 reply.setPurchaseReturnsSheetVOList(purchaseReturnsSheetVOList);
                 break;
             case 3:
-                List<PaymentVO> paymentVOList = paymentService.getSheetByState(null);
-                List<ReceiptVO> receiptVOList = receiptService.getSheetByState(null);
-                List<SalarySheetVO> salarySheetVOList = salarySheetService.getSheetByState(null);
+                List<PaymentVO> paymentVOList = paymentService.getSheetByState(null).stream()
+                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
+                List<ReceiptVO> receiptVOList = receiptService.getSheetByState(null).stream()
+                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
+                List<SalarySheetVO> salarySheetVOList = salarySheetService.getSheetByState(null).stream()
+                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
                 reply.setPaymentVOList(paymentVOList);
                 reply.setReceiptVOList(receiptVOList);
                 reply.setSalarySheetVOList(salarySheetVOList);
@@ -67,5 +77,20 @@ public class BusinessHistoryServiceImpl implements BusinessHistoryService {
                 throw new RuntimeException("不支持的单据类型。只支持sale: 1, purchase: 2, finance: 3, warehouse: 4");
         }
         return reply;
+    }
+}
+
+class DateComparator {
+    private final Date startTime;
+    private final Date endTime;
+    public DateComparator(Date startTime, Date endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public boolean inBetween(Date d) {
+        boolean a = d.equals(startTime) || d.equals(endTime);
+        boolean b = startTime.before(d) && d.before(endTime);
+        return a || b;
     }
 }
