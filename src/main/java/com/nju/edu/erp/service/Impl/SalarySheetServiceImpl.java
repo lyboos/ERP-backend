@@ -1,6 +1,7 @@
 package com.nju.edu.erp.service.Impl;
 
 import com.nju.edu.erp.dao.SalarySheetDao;
+import com.nju.edu.erp.dao.StaffDao;
 import com.nju.edu.erp.enums.sheetState.SalarySheetState;
 import com.nju.edu.erp.enums.strategy.PaymentRelevantInfo;
 import com.nju.edu.erp.model.po.SalarySheetPO;
@@ -26,11 +27,14 @@ public class SalarySheetServiceImpl implements SalarySheetService {
 
     SalarySheetDao salarySheetDao;
 
+    StaffDao staffDao;
+
     CheckInService checkInService;
 
     @Autowired
-    public SalarySheetServiceImpl(SalarySheetDao salarySheetDao, CheckInService checkInService) {
+    public SalarySheetServiceImpl(SalarySheetDao salarySheetDao, StaffDao staffDao, CheckInService checkInService) {
         this.salarySheetDao = salarySheetDao;
+        this.staffDao = staffDao;
         this.checkInService = checkInService;
     }
 
@@ -54,7 +58,7 @@ public class SalarySheetServiceImpl implements SalarySheetService {
         SalarySheetPO latest = salarySheetDao.getLatest();
         String id = IdGenerator.generateSheetId(latest == null? null : latest.getId(), "SKD");
         sheetPO.setId(id);
-        StaffInfoPO staffInfoPO = new StaffInfoPO(); // TODO: REPLACE WITH StaffService
+        StaffInfoPO staffInfoPO = staffDao.getStaffByName(sheetVO.getName());
         sheetPO.setSalaryAccount(staffInfoPO.getBankAccount());
 
         // 防御式编程
