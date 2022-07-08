@@ -28,8 +28,10 @@ public class BusinessHistoryServiceImpl implements BusinessHistoryService {
     ReceiptService receiptService;
     SalarySheetService salarySheetService;
 
+    CustomerService customerService;
+
     @Autowired
-    public BusinessHistoryServiceImpl(SaleService saleService, SaleReturnsService saleReturnsService, PurchaseService purchaseService, PurchaseReturnsService purchaseReturnsService, PaymentService paymentService, ReceiptService receiptService, SalarySheetService salarySheetService) {
+    public BusinessHistoryServiceImpl(SaleService saleService, SaleReturnsService saleReturnsService, PurchaseService purchaseService, PurchaseReturnsService purchaseReturnsService, PaymentService paymentService, ReceiptService receiptService, SalarySheetService salarySheetService, CustomerService customerService) {
         this.saleService = saleService;
         this.saleReturnsService = saleReturnsService;
         this.purchaseService = purchaseService;
@@ -37,6 +39,7 @@ public class BusinessHistoryServiceImpl implements BusinessHistoryService {
         this.paymentService = paymentService;
         this.receiptService = receiptService;
         this.salarySheetService = salarySheetService;
+        this.customerService = customerService;
     }
 
     @Override
@@ -46,25 +49,45 @@ public class BusinessHistoryServiceImpl implements BusinessHistoryService {
         switch (request.getSheetType()) { // sale: 1, purchase: 2, finance: 3, warehouse: 4
             case 1:
                 List<SaleSheetVO> saleSheetVOList = saleService.getSaleSheetByState(null).stream()
-                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
+                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())) // 时间
+                        .filter(vo -> customerService.findCustomerById(vo.getSupplier()).getName().equals(request.getCustomerName())) // 客户名
+                        .filter(vo -> vo.getOperator().equals(request.getOperatorName())) // 操作员名
+                        .collect(Collectors.toList());
                 List<SaleReturnsSheetVO> saleReturnsSheetVOList = saleReturnsService.getSaleReturnsSheetByState(null).stream()
-                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
+                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime()))
+                        // 如果某return单对应的sale单不在saleSheetVOList里，则显然该return单与本次查询无关；若在，则客户名与条件相等
+                        .filter(vo -> saleSheetVOList.stream().anyMatch(saleSheetVO -> saleSheetVO.getId().equals(vo.getSaleSheetId())))
+                        .filter(vo -> vo.getOperator().equals(request.getOperatorName())) // 操作员名
+                        .collect(Collectors.toList());
+
                 reply.setSaleSheetVOList(saleSheetVOList);
                 reply.setSaleReturnsSheetVOList(saleReturnsSheetVOList);
                 break;
             case 2:
                 List<PurchaseSheetVO> purchaseSheetVOList = purchaseService.getPurchaseSheetByState(null).stream()
-                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
+                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime()))
+                        .filter(vo -> customerService.findCustomerById(vo.getSupplier()).getName().equals(request.getCustomerName())) // 客户/供应商名
+                        .filter(vo -> vo.getOperator().equals(request.getOperatorName())) // 操作员名
+                        .collect(Collectors.toList());
                 List<PurchaseReturnsSheetVO> purchaseReturnsSheetVOList = purchaseReturnsService.getPurchaseReturnsSheetByState(null).stream()
-                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
+                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime()))
+                        .filter(vo -> purchaseSheetVOList.stream().anyMatch(saleSheetVO -> saleSheetVO.getId().equals(vo.getPurchaseSheetId())))
+                        .filter(vo -> vo.getOperator().equals(request.getOperatorName())) // 操作员名
+                        .collect(Collectors.toList());
                 reply.setPurchaseSheetVOList(purchaseSheetVOList);
                 reply.setPurchaseReturnsSheetVOList(purchaseReturnsSheetVOList);
                 break;
             case 3:
                 List<PaymentVO> paymentVOList = paymentService.getSheetByState(null).stream()
-                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
+                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime()))
+                        .filter(vo -> customerService.findCustomerById(vo.getSupplier()).getName().equals(request.getCustomerName())) // 客户/供应商名
+                        .filter(vo -> vo.getOperator().equals(request.getOperatorName())) // 操作员名
+                        .collect(Collectors.toList());
                 List<ReceiptVO> receiptVOList = receiptService.getSheetByState(null).stream()
-                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
+                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime()))
+                        .filter(vo -> customerService.findCustomerById(vo.getSupplier()).getName().equals(request.getCustomerName())) // 客户/供应商名
+                        .filter(vo -> vo.getOperator().equals(request.getOperatorName())) // 操作员名
+                        .collect(Collectors.toList());
                 List<SalarySheetVO> salarySheetVOList = salarySheetService.getSheetByState(null).stream()
                         .filter(vo -> dateComparator.inBetween(vo.getCreateTime())).collect(Collectors.toList());
                 reply.setPaymentVOList(paymentVOList);
