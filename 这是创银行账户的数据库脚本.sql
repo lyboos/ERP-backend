@@ -10,16 +10,16 @@ CREATE TABLE `BankAccount`  (
 
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-alter table bankaccount
-	add constraint bankaccount_pk
+alter table BankAccount
+	add constraint BankAccount_pk
 		primary key (id);
 
-alter table bankaccount modify id INT not null comment 'id';
+alter table BankAccount modify id INT not null comment 'id';
 
-INSERT INTO bankaccount (id, name, remaining_sum)
+INSERT INTO BankAccount (id, name, remaining_sum)
 values (1,'LYBOOS',1200);
 
-INSERT INTO bankaccount (id, name, remaining_sum)
+INSERT INTO BankAccount (id, name, remaining_sum)
 values (2,'hjb',220000);
 
-alter table bankaccount modify id varchar(31) not null comment 'id';
+alter table BankAccount modify id varchar(31) not null comment 'id';
