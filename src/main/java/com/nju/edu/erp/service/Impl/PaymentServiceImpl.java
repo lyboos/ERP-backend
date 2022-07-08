@@ -147,7 +147,7 @@ public class PaymentServiceImpl implements PaymentService {
         if (paymentPO == null) return null;
         List<PaymentContentPO> contentPO = paymentDao.findContentBySheetId(sheetId);
         PaymentVO vo = new PaymentVO();
-        BeanUtils.copyProperties(vo, contentPO);
+        BeanUtils.copyProperties(contentPO, vo);
         return vo;
     }
 }
