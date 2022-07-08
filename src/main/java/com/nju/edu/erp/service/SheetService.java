@@ -4,15 +4,17 @@ import com.nju.edu.erp.enums.BaseEnum;
 import com.nju.edu.erp.model.po.SheetPO;
 import com.nju.edu.erp.model.vo.SheetVO;
 import com.nju.edu.erp.model.vo.UserVO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface SheetService<Sheetpo extends SheetPO, Sheetvo extends SheetVO, SheetState extends BaseEnum<?, String>> {
+public interface SheetService<Sheetvo extends SheetVO, SheetState extends BaseEnum<?, String>> {
     /**
      * 制定单
      * @param userVO 用户VO
      * @param sheetVO 单VO
      */
+    @Transactional
     void makeSheet(UserVO userVO, Sheetvo sheetVO);
 
     /**
@@ -20,6 +22,7 @@ public interface SheetService<Sheetpo extends SheetPO, Sheetvo extends SheetVO, 
      * @param state 单状态
      * @return 单
      */
+    @Transactional
     List<Sheetvo> getSheetByState(SheetState state);
 
     /**
@@ -28,6 +31,7 @@ public interface SheetService<Sheetpo extends SheetPO, Sheetvo extends SheetVO, 
      * @param sheetId 单id
      * @param state 单修改后的状态
      */
+    @Transactional
     void approval(String sheetId, SheetState state);
 
     /**

@@ -54,7 +54,7 @@ public class BusinessHistoryServiceImpl implements BusinessHistoryService {
                         .filter(vo -> vo.getOperator().equals(request.getOperatorName())) // 操作员名
                         .collect(Collectors.toList());
                 List<SaleReturnsSheetVO> saleReturnsSheetVOList = saleReturnsService.getSaleReturnsSheetByState(null).stream()
-                        .filter(vo -> dateComparator.inBetween(vo.getCreateTime()))
+                        // .filter(vo -> dateComparator.inBetween(vo.getCreateTime())) // 这里不需要时间限制，因为时间内的销售单不一定在时间内制定退货单
                         // 如果某return单对应的sale单不在saleSheetVOList里，则显然该return单与本次查询无关；若在，则客户名与条件相等
                         .filter(vo -> saleSheetVOList.stream().anyMatch(saleSheetVO -> saleSheetVO.getId().equals(vo.getSaleSheetId())))
                         .filter(vo -> vo.getOperator().equals(request.getOperatorName())) // 操作员名

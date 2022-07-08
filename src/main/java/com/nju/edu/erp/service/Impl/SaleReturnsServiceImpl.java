@@ -83,6 +83,7 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
         BigDecimal discount = saleSheet.getDiscount();
         BigDecimal voucher = saleSheet.getVoucherAmount();
         BigDecimal saleRawTotalAmount = saleSheet.getRawTotalAmount();
+        BigDecimal returnRawTotalAmount = BigDecimal.ZERO;
         //BigDecimal trueDiscount = discount.subtract(voucher.divide(saleRawTotalAmount, voucher.scale() - saleRawTotalAmount.scale()));
 
         List<SaleSheetContentPO> saleSheetContents = saleSheetDao.findContentBySheetId(saleReturnsSheetPO.getSaleSheetId());
@@ -101,6 +102,7 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
             BigDecimal unitPrice = pContentPO.getUnitPrice();
             pContentPO.setTotalPrice(unitPrice.multiply(BigDecimal.valueOf(pContentPO.getQuantity())));
             pContentPOList.add(pContentPO);
+            returnRawTotalAmount = returnRawTotalAmount.add(pContentPO.getTotalPrice());
             // voucherAmountOnThisContent = totalPrice / rawTotalAmount * voucher = (totalPrice * voucher) / rawTotalAmount
             BigDecimal voucherAmount = pContentPO.getTotalPrice().multiply(voucher);
             voucherAmount = voucherAmount.divide(saleRawTotalAmount, voucherAmount.scale() - saleRawTotalAmount.scale());
@@ -108,7 +110,7 @@ public class SaleReturnsServiceImpl implements SaleReturnsService {
             finalAmount = finalAmount.subtract(voucherAmount);
         }
         saleReturnsSheetDao.saveBatch(pContentPOList);
-        saleReturnsSheetPO.setRawTotalAmount(saleRawTotalAmount);
+        saleReturnsSheetPO.setRawTotalAmount(returnRawTotalAmount);
         saleReturnsSheetPO.setFinalAmount(finalAmount);
         saleReturnsSheetDao.save(saleReturnsSheetPO);
     }

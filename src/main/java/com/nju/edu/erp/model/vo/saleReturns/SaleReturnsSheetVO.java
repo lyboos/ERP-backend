@@ -46,7 +46,7 @@ public class SaleReturnsSheetVO {
      */
     private SaleSheetState state;
     /**
-     * 折让后总额, 新建单据时前端传null
+     * 应退还总金额, 新建单据时前端传null
      */
     private BigDecimal finalAmount;
     /**

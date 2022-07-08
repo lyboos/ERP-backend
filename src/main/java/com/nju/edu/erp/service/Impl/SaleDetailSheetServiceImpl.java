@@ -53,7 +53,7 @@ public class SaleDetailSheetServiceImpl implements SaleDetailSheetService {
         );
 
         List<SaleReturnsSheetVO> returnsSheetVOList = returnsService.getSaleReturnsSheetByState(null).stream()
-                .filter(vo -> dateComparator.inBetween(vo.getCreateTime()))
+                // .filter(vo -> dateComparator.inBetween(vo.getCreateTime())) // 这里不需要时间限制，因为时间内的销售单不一定在时间内制定退货单
                 .filter(vo -> vo.getSaleReturnsSheetContent().stream().anyMatch(
                         content -> productService.getOneProductByPid(content.getPid()).getName().equals(request.getProductName()))
                 )
