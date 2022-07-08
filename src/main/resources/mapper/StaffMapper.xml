@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper>
+<mapper namespace="com.nju.edu.erp.dao.StaffDao">
     <insert id="createNewStaff" parameterType="StaffInfoPO">
         insert into staff_info (id, name, gender, birthday, phone, role, base_salary, commission, level, payment_calculating_strategy, payment_schedule_strategy, bank_account_id)
         values (#{id},#{name},#{gender},#{birthday},#{phone},#{role},#{baseSalary},#{commission},#{level},#{paymentCalculatingStrategy},#{paymentScheduleStrategy},#{bankAccount})
