@@ -25,4 +25,6 @@ public interface StaffService {
     int updateLevel(Integer level);
     int updatePaymentCalStrategy(PaymentCalculatingStrategy pcs);
     int updatePaymentScheduleStrategy(PaymentScheduleStrategy pss);
+
+    StaffInfoVO getStaffByName(String name);
 }

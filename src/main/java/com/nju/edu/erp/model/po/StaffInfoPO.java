@@ -29,7 +29,7 @@ public class StaffInfoPO {// 员工信息PO
     /**
      * 性别
      */
-    private String sex;
+    private String gender;
 
     /**
      * 出生日期
@@ -74,5 +74,5 @@ public class StaffInfoPO {// 员工信息PO
     /**
      * 工资卡账户
      */
-    private String salaryAccount;
+    private String bankAccount;
 }
