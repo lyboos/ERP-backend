@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.Random;
 
 public class PoorGiveawayStrategy implements PromotionStrategy {
-    // 初始价格超出一定价格，随机一项商品多送一个
+    // 初始价格超出一定价格，随机一项商品多送n个
     private final BigDecimal trigger;
+    private final Integer n;
 
-    public PoorGiveawayStrategy(BigDecimal trigger) {
+    public PoorGiveawayStrategy(BigDecimal trigger, Integer n) {
         this.trigger = trigger;
+        this.n = n;
     }
 
     @Override
@@ -24,7 +26,7 @@ public class PoorGiveawayStrategy implements PromotionStrategy {
             int i = r.nextInt();
             i = i % resList.size();
             SaleSheetContentPO contentPO = resList.get(i);
-            contentPO.setQuantity(contentPO.getQuantity() + 1);
+            contentPO.setQuantity(contentPO.getQuantity() + n);
         }
     }
 }

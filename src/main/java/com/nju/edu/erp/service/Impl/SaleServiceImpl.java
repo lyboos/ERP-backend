@@ -10,10 +10,7 @@ import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.model.vo.warehouse.WarehouseOutputFormContentVO;
 import com.nju.edu.erp.model.vo.warehouse.WarehouseOutputFormVO;
 import com.nju.edu.erp.service.CustomerService;
-import com.nju.edu.erp.service.Impl.promotionStrategy.AdditionalDiscountStrategy;
-import com.nju.edu.erp.service.Impl.promotionStrategy.PoorGiveawayStrategy;
-import com.nju.edu.erp.service.Impl.promotionStrategy.LevelDiscountStrategy;
-import com.nju.edu.erp.service.Impl.promotionStrategy.PromotionStrategy;
+import com.nju.edu.erp.service.Impl.promotionStrategy.*;
 import com.nju.edu.erp.service.ProductService;
 import com.nju.edu.erp.service.SaleService;
 import com.nju.edu.erp.service.WarehouseService;
@@ -45,14 +42,15 @@ public class SaleServiceImpl implements SaleService {
     private final WarehouseService warehouseService;
 
     // 处理顺序在makeSheet方法里定义
+    // 下面为默认促销策略（即没有特殊促销策略）
     @Setter
-    private PromotionStrategy userStrategy = new LevelDiscountStrategy(BigDecimal.valueOf(0.01));
+    private PromotionStrategy userStrategy = new WhiteStrategy();
 
     @Setter
-    private PromotionStrategy additionalDiscountStrategy = new AdditionalDiscountStrategy(BigDecimal.ZERO, BigDecimal.ZERO);
+    private PromotionStrategy additionalDiscountStrategy = new WhiteStrategy();
 
     @Setter
-    private PromotionStrategy giveawayStrategy = new PoorGiveawayStrategy(BigDecimal.valueOf(1414180));
+    private PromotionStrategy giveawayStrategy = new WhiteStrategy();
 
     @Autowired
     public SaleServiceImpl(SaleSheetDao saleSheetDao, ProductService productService, CustomerService customerService, WarehouseService warehouseService) {
@@ -103,7 +101,7 @@ public class SaleServiceImpl implements SaleService {
         saleSheetDao.save(resPO);
     }
 
-    class Pair {
+    static class Pair {
         public SaleSheetPO first;
         public List<SaleSheetContentPO> second;
 
@@ -244,7 +242,6 @@ public class SaleServiceImpl implements SaleService {
      * @param salesman 销售人员的名字
      * @param beginDateStr 开始时间字符串
      * @param endDateStr 结束时间字符串
-     * @return
      */
     public CustomerPurchaseAmountPO getMaxAmountCustomerOfSalesmanByTime(String salesman,String beginDateStr,String endDateStr){
         DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -283,5 +280,35 @@ public class SaleServiceImpl implements SaleService {
         }
         sVO.setSaleSheetContent(saleSheetContentVOList);
         return sVO;
+    }
+
+    @Override
+    public void getUserStrategy(BigDecimal[] additionalDiscount) {
+        userStrategy = new LevelDiscountStrategy(additionalDiscount, customerService);
+    }
+
+    @Override
+    public void getAdditionalDiscountStrategy(BigDecimal additionalDiscount, BigDecimal trigger) {
+        additionalDiscountStrategy = new AdditionalDiscountStrategy(additionalDiscount, trigger);
+    }
+
+    @Override
+    public void getGiveawayStrategy(BigDecimal trigger, Integer numOfGiveaway) {
+        giveawayStrategy = new PoorGiveawayStrategy(trigger, numOfGiveaway);
+    }
+
+    @Override
+    public PromotionStrategy getUserStrategy() {
+        return userStrategy;
+    }
+
+    @Override
+    public PromotionStrategy getAdditionalDiscountStrategy() {
+        return additionalDiscountStrategy;
+    }
+
+    @Override
+    public PromotionStrategy getGiveawayStrategy() {
+        return giveawayStrategy;
     }
 }

@@ -1,17 +1,22 @@
 package com.nju.edu.erp.service.Impl.promotionStrategy;
 
+import com.nju.edu.erp.model.po.CustomerPO;
 import com.nju.edu.erp.model.po.SaleSheetContentPO;
 import com.nju.edu.erp.model.po.SaleSheetPO;
 import com.nju.edu.erp.model.vo.sale.SaleSheetVO;
+import com.nju.edu.erp.service.CustomerService;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public class LevelDiscountStrategy implements PromotionStrategy {
-    private final BigDecimal additionalDiscount;
+    private final BigDecimal[] additionalDiscount;
 
-    public LevelDiscountStrategy(BigDecimal additionalDiscount) {
+    CustomerService customerService;
+
+    public LevelDiscountStrategy(BigDecimal[] additionalDiscount, CustomerService customerService) {
         this.additionalDiscount = additionalDiscount;
+        this.customerService = customerService;
     }
 
     /**
@@ -24,6 +29,11 @@ public class LevelDiscountStrategy implements PromotionStrategy {
      */
     @Override
     public void preProcessVO(SaleSheetVO resVO, SaleSheetVO calVO, SaleSheetPO calPO, List<SaleSheetContentPO> calPOList) {
+        Integer customerId = resVO.getSupplier();
+        CustomerPO customer = customerService.findCustomerById(customerId);
+        Integer customerLevel = customer.getLevel();
+        BigDecimal additionalDiscount = this.additionalDiscount[customerLevel];
+
         resVO.setDiscount(resVO.getDiscount().add(additionalDiscount));
     }
 }

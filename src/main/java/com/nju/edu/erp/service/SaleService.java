@@ -7,7 +7,6 @@ import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.service.Impl.promotionStrategy.PromotionStrategy;
 import org.springframework.stereotype.Service;
 
-import javax.sound.sampled.Port;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -51,9 +50,11 @@ public interface SaleService {
      */
     SaleSheetVO getSaleSheetById(String saleSheetId);
 
-    void setUserStrategy(PromotionStrategy strategy);
+    void getUserStrategy(BigDecimal[] additionalDiscount);
+    void getAdditionalDiscountStrategy(BigDecimal additionalDiscount, BigDecimal trigger);
+    void getGiveawayStrategy(BigDecimal trigger, Integer numOfGiveaway);
 
-    void setAdditionalDiscountStrategy(PromotionStrategy strategy);
-
-    void setGiveawayStrategy(PromotionStrategy strategy);
+    PromotionStrategy getUserStrategy();
+    PromotionStrategy getAdditionalDiscountStrategy();
+    PromotionStrategy getGiveawayStrategy();
 }
