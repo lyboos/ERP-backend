@@ -6,7 +6,7 @@
         select * from payment_sheet order by id desc limit 0,1 ;
     </select>
 
-    <insert id="save" parameterMap="PaymentPO">
+    <insert id="save" parameterType="PaymentPO">
         insert into payment_sheet (id, supplier_id, operator, total_amount, state, create_time)
         values (#{id},#{supplier},#{operator},#{TotalAmount},#{state}, #{createTime})
     </insert>
@@ -43,7 +43,7 @@
     </insert>
 
     <select id="findContentBySheetId" resultMap="PaymentContentPO">
-        select * from payment_sheet_content where id = #{sheetId}
+        select * from payment_sheet_content where sheet_id = #{sheetId}
     </select>
 
     <resultMap id="PaymentPO" type="com.nju.edu.erp.model.po.PaymentPO">
