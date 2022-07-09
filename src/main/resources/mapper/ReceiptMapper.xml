@@ -6,16 +6,16 @@
         select * from receipt_sheet order by id desc limit 0,1 ;
     </select>
 
-    <insert id="save" parameterType="ReceiptPO">
+    <insert id="save" parameterMap="ReceiptPO">
         insert into receipt_sheet (id, supplier_id, operator, total_amount, state, create_time)
         values (#{id},#{supplier},#{operator},#{TotalAmount},#{state}, #{createTime})
     </insert>
 
-    <select id="findAll" resultType="ReceiptPO">
+    <select id="findAll" resultMap="ReceiptPO">
         select * from receipt_sheet;
     </select>
 
-    <select id="findAllByState" resultType="ReceiptPO">
+    <select id="findAllByState" resultMap="ReceiptPO">
         select * from receipt_sheet where state = #{state}
     </select>
 
@@ -31,7 +31,7 @@
         where id = #{sheetId} and state = #{prevState}
     </update>
 
-    <select id="findSheetById" resultType="ReceiptPO">
+    <select id="findSheetById" resultMap="ReceiptPO">
         select * from receipt_sheet where id=#{sheetId}
     </select>
 
@@ -42,7 +42,7 @@
         </foreach>
     </insert>
 
-    <select id="findContentBySheetId" resultType="com.nju.edu.erp.model.po.ReceiptContentPO">
+    <select id="findContentBySheetId" resultMap="ReceiptContentPO">
         select * from receipt_sheet_content where id = #{sheetId}
     </select>
 
@@ -55,4 +55,11 @@
         <result column="create_time" property="createTime"></result>
     </resultMap>
 
+    <resultMap id="ReceiptContentPO" type="com.nju.edu.erp.model.po.ReceiptContentPO">
+        <id column="id" property="id"></id>
+        <result column="sheet_id" property="sheetId"></result>
+        <result column="bank_account_id" property="bankAccountId"></result>
+        <result column="amount" property="amount"></result>
+        <result column="remark" property="remark"></result>
+    </resultMap>
 </mapper>

@@ -6,16 +6,16 @@
         select * from payment_sheet order by id desc limit 0,1 ;
     </select>
 
-    <insert id="save" parameterType="PaymentPO">
+    <insert id="save" parameterMap="PaymentPO">
         insert into payment_sheet (id, supplier_id, operator, total_amount, state, create_time)
         values (#{id},#{supplier},#{operator},#{TotalAmount},#{state}, #{createTime})
     </insert>
 
-    <select id="findAll" resultType="PaymentPO">
+    <select id="findAll" resultMap="PaymentPO">
         select * from payment_sheet;
     </select>
 
-    <select id="findAllByState" resultType="PaymentPO">
+    <select id="findAllByState" resultMap="PaymentPO">
         select * from payment_sheet where state = #{state}
     </select>
 
@@ -31,7 +31,7 @@
         where id = #{sheetId} and state = #{prevState}
     </update>
 
-    <select id="findSheetById" resultType="PaymentPO">
+    <select id="findSheetById" resultMap="PaymentPO">
         select * from payment_sheet where id=#{sheetId}
     </select>
 
@@ -42,7 +42,7 @@
         </foreach>
     </insert>
 
-    <select id="findContentBySheetId" resultType="com.nju.edu.erp.model.po.PaymentContentPO">
+    <select id="findContentBySheetId" resultMap="PaymentContentPO">
         select * from payment_sheet_content where id = #{sheetId}
     </select>
 
@@ -55,4 +55,11 @@
         <result column="create_time" property="createTime"></result>
     </resultMap>
 
+    <resultMap id="PaymentContentPO" type="com.nju.edu.erp.model.po.PaymentContentPO">
+        <id column="id" property="id"></id>
+        <result column="sheet_id" property="sheetId"></result>
+        <result column="bank_account_id" property="bankAccountId"></result>
+        <result column="amount" property="amount"></result>
+        <result column="remark" property="remark"></result>
+    </resultMap>
 </mapper>
