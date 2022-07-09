@@ -82,6 +82,7 @@ public class SaleServiceImpl implements SaleService {
 
         SaleSheetVO resVO = new SaleSheetVO();
         BeanUtils.copyProperties(rawPO, resVO);
+        resVO.setSaleSheetContent(saleSheetVO.getSaleSheetContent());
         // resVO预处理，为真计算做准备
         userStrategy.preProcessVO(resVO, saleSheetVO, rawPO, rawPOList);
         additionalDiscountStrategy.preProcessVO(resVO, saleSheetVO, rawPO, rawPOList);
@@ -97,7 +98,7 @@ public class SaleServiceImpl implements SaleService {
 
         saleSheetDao.saveBatch(resList);
         BigDecimal finalAmount = resPO.getRawTotalAmount().multiply(resPO.getDiscount()).subtract(resPO.getVoucherAmount());
-        resVO.setFinalAmount(finalAmount);
+        resPO.setFinalAmount(finalAmount);
         saleSheetDao.save(resPO);
     }
 
