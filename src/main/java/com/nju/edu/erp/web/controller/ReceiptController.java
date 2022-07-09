@@ -2,11 +2,10 @@ package com.nju.edu.erp.web.controller;
 
 import com.nju.edu.erp.auth.Authorized;
 import com.nju.edu.erp.enums.Role;
-import com.nju.edu.erp.enums.sheetState.ReceiptState;
-import com.nju.edu.erp.model.vo.receipt.ReceiptVO;
+import com.nju.edu.erp.enums.sheetState.RandPState;
 import com.nju.edu.erp.model.vo.UserVO;
+import com.nju.edu.erp.model.vo.receipt.ReceiptVO;
 import com.nju.edu.erp.service.ReceiptService;
-import com.nju.edu.erp.service.SheetService;
 import com.nju.edu.erp.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +35,7 @@ public class ReceiptController {
      */
     @Authorized(roles = {Role.FINANCIAL_STAFF,Role.ADMIN})
     @GetMapping("/sheet-show")
-    public Response findReceiptByState(@RequestParam(value = "state", required = false) ReceiptState state) {
+    public Response findReceiptByState(@RequestParam(value = "state", required = false) RandPState state) {
         return Response.buildSuccess(ReceiptService.getSheetByState(state));
     }
 
@@ -49,8 +48,8 @@ public class ReceiptController {
     @Authorized (roles = {Role.GM, Role.ADMIN})
     @GetMapping(value = "/second-approval")
     public Response secondApproval(@RequestParam("ReceiptSheetId") String ReceiptSheetId,
-                                   @RequestParam("state") ReceiptState state)  {
-        if(state.equals(ReceiptState.FAILURE) || state.equals(ReceiptState.SUCCESS)) {
+                                   @RequestParam("state") RandPState state)  {
+        if(state.equals(RandPState.FAILURE) || state.equals(RandPState.SUCCESS)) {
             ReceiptService.approval(ReceiptSheetId, state);
             return Response.buildSuccess();
         } else {

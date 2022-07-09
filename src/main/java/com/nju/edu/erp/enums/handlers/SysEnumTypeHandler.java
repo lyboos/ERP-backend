@@ -17,8 +17,7 @@ import org.apache.ibatis.type.MappedTypes;
         SaleSheetState.class,
         PurchaseReturnsSheetState.class,
         SaleReturnsSheetState.class,
-        ReceiptState.class,
-        PaymentState.class,
+        RandPState.class,
         SalarySheetState.class,
 
 })

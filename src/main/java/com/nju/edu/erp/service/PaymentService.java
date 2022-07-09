@@ -1,14 +1,12 @@
 package com.nju.edu.erp.service;
 
-import com.nju.edu.erp.enums.sheetState.PaymentState;
-import com.nju.edu.erp.model.po.PaymentPO;
+import com.nju.edu.erp.enums.sheetState.RandPState;
 import com.nju.edu.erp.model.vo.Payment.PaymentVO;
 import com.nju.edu.erp.model.vo.UserVO;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface PaymentService extends SheetService<PaymentVO, PaymentState> {
+public interface PaymentService extends SheetService<PaymentVO, RandPState> {
     /**
      * 制定单
      *
@@ -25,7 +23,7 @@ public interface PaymentService extends SheetService<PaymentVO, PaymentState> {
      * @return 单
      */
     @Override
-    List<PaymentVO> getSheetByState(PaymentState state);
+    List<PaymentVO> getSheetByState(RandPState state);
 
     /**
      * 根据单id进行审批(state), 注意，有的有两层审批，有的只要总经理审批
@@ -35,7 +33,7 @@ public interface PaymentService extends SheetService<PaymentVO, PaymentState> {
      * @param state 单修改后的状态
      */
     @Override
-    void approval(String sheetId, PaymentState state);
+    void approval(String sheetId, RandPState state);
 
     /**
      * 根据单Id搜索进货单信息

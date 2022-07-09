@@ -1,6 +1,6 @@
 package com.nju.edu.erp.model.po;
 
-import com.nju.edu.erp.enums.sheetState.ReceiptState;
+import com.nju.edu.erp.enums.sheetState.RandPState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +31,7 @@ public class ReceiptPO implements SheetWithContentPO<ReceiptContentPO> {
      */
     private BigDecimal TotalAmount;
 
-    private ReceiptState state;
+    private RandPState state;
 
     private Date createTime;
 

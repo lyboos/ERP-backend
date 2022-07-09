@@ -1,6 +1,6 @@
 package com.nju.edu.erp.model.vo.Payment;
 
-import com.nju.edu.erp.enums.sheetState.ReceiptState;
+import com.nju.edu.erp.enums.sheetState.RandPState;
 import com.nju.edu.erp.model.vo.SheetWithContentVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +36,7 @@ public class PaymentVO implements SheetWithContentVO<PaymentContentVO> {
     /**
      * 单据状态, 新建单据时前端传null
      */
-    private ReceiptState state;
+    private RandPState state;
 
     List<PaymentContentVO> sheetContent;
 

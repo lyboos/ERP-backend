@@ -1,7 +1,7 @@
 package com.nju.edu.erp.service.Impl;
 
 import com.nju.edu.erp.dao.ReceiptDao;
-import com.nju.edu.erp.enums.sheetState.ReceiptState;
+import com.nju.edu.erp.enums.sheetState.RandPState;
 import com.nju.edu.erp.model.po.CustomerPO;
 import com.nju.edu.erp.model.po.ReceiptContentPO;
 import com.nju.edu.erp.model.po.ReceiptPO;
@@ -52,7 +52,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         ReceiptPO latest = receiptDao.getLatest();
         String id = IdGenerator.generateSheetId(latest == null? null : latest.getId(), "SKD");
         receiptPO.setId(id);
-        receiptPO.setState(ReceiptState.PENDING_LEVEL_2);
+        receiptPO.setState(RandPState.PENDING_LEVEL_2);
         BigDecimal totalAmount = BigDecimal.ZERO;
         List<ReceiptContentPO> receiptContentPOList = new ArrayList<>();
         for (ReceiptContentVO contentVO: receiptVO.getSheetContent()) {
@@ -74,7 +74,7 @@ public class ReceiptServiceImpl implements ReceiptService {
      * @return 单
      */
     @Override
-    public List<ReceiptVO> getSheetByState(ReceiptState state) {
+    public List<ReceiptVO> getSheetByState(RandPState state) {
         List<ReceiptVO> res = new ArrayList<>();
         List<ReceiptPO> all;
         if (state == null) {
@@ -111,22 +111,22 @@ public class ReceiptServiceImpl implements ReceiptService {
      */
     @Override
     @Transactional
-    public void approval(String sheetId, ReceiptState state) {
-        if (state.equals(ReceiptState.FAILURE)) {
+    public void approval(String sheetId, RandPState state) {
+        if (state.equals(RandPState.FAILURE)) {
             ReceiptPO sheet = receiptDao.findSheetById(sheetId);
-            if (sheet.getState().equals(ReceiptState.SUCCESS)) throw new RuntimeException("状态更新失败");
+            if (sheet.getState().equals(RandPState.SUCCESS)) throw new RuntimeException("状态更新失败");
             int effectLines = receiptDao.updateState(sheetId, state);
             if (effectLines == 0) throw new RuntimeException("状态更新失败");
         } else {
-            ReceiptState prevState;
-            if (state.equals(ReceiptState.SUCCESS)) {
-                prevState = ReceiptState.PENDING_LEVEL_2;
+            RandPState prevState;
+            if (state.equals(RandPState.SUCCESS)) {
+                prevState = RandPState.PENDING_LEVEL_2;
             } else {
                 throw new RuntimeException("状态更新失败");
             }
             int effectLines = receiptDao.updateStateV2(sheetId, prevState, state);
             if (effectLines == 0) throw new RuntimeException("状态更新失败");
-            if (state.equals(ReceiptState.SUCCESS)) {
+            if (state.equals(RandPState.SUCCESS)) {
                 // 更新客户表的应收字段receivable
                 ReceiptPO receiptPO = receiptDao.findSheetById(sheetId);
                 CustomerPO customerPO = customerService.findCustomerById(receiptPO.getSupplier());

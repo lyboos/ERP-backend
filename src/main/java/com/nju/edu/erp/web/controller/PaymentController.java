@@ -2,11 +2,10 @@ package com.nju.edu.erp.web.controller;
 
 import com.nju.edu.erp.auth.Authorized;
 import com.nju.edu.erp.enums.Role;
-import com.nju.edu.erp.enums.sheetState.PaymentState;
+import com.nju.edu.erp.enums.sheetState.RandPState;
 import com.nju.edu.erp.model.vo.Payment.PaymentVO;
 import com.nju.edu.erp.model.vo.UserVO;
 import com.nju.edu.erp.service.PaymentService;
-import com.nju.edu.erp.service.SheetService;
 import com.nju.edu.erp.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +35,7 @@ public class PaymentController {
      */
     @Authorized(roles = {Role.FINANCIAL_STAFF,Role.ADMIN})
     @GetMapping("/sheet-show")
-    public Response findPaymentByState(@RequestParam(value = "state", required = false) PaymentState state) {
+    public Response findPaymentByState(@RequestParam(value = "state", required = false) RandPState state) {
         return Response.buildSuccess(paymentService.getSheetByState(state));
     }
 
@@ -49,8 +48,8 @@ public class PaymentController {
     @Authorized (roles = {Role.GM, Role.ADMIN})
     @GetMapping(value = "/second-approval")
     public Response secondApproval(@RequestParam("paymentSheetId") String paymentSheetId,
-                                   @RequestParam("state") PaymentState state)  {
-        if(state.equals(PaymentState.FAILURE) || state.equals(PaymentState.SUCCESS)) {
+                                   @RequestParam("state") RandPState state)  {
+        if(state.equals(RandPState.FAILURE) || state.equals(RandPState.SUCCESS)) {
             paymentService.approval(paymentSheetId, state);
             return Response.buildSuccess();
         } else {

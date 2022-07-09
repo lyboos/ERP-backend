@@ -1,7 +1,7 @@
 package com.nju.edu.erp.service.Impl;
 
 import com.nju.edu.erp.dao.PaymentDao;
-import com.nju.edu.erp.enums.sheetState.PaymentState;
+import com.nju.edu.erp.enums.sheetState.RandPState;
 import com.nju.edu.erp.model.po.CustomerPO;
 import com.nju.edu.erp.model.po.PaymentContentPO;
 import com.nju.edu.erp.model.po.PaymentPO;
@@ -51,7 +51,7 @@ public class PaymentServiceImpl implements PaymentService {
         PaymentPO latest = paymentDao.getLatest();
         String id = IdGenerator.generateSheetId(latest == null? null : latest.getId(), "SKD");
         paymentPO.setId(id);
-        paymentPO.setState(PaymentState.PENDING_LEVEL_2);
+        paymentPO.setState(RandPState.PENDING_LEVEL_2);
         BigDecimal totalAmount = BigDecimal.ZERO;
         List<PaymentContentPO> paymentContentPOList = new ArrayList<>();
         for (PaymentContentVO contentVO: sheetVO.getSheetContent()) {
@@ -73,7 +73,7 @@ public class PaymentServiceImpl implements PaymentService {
      * @return 单
      */
     @Override
-    public List<PaymentVO> getSheetByState(PaymentState state) {
+    public List<PaymentVO> getSheetByState(RandPState state) {
         List<PaymentVO> res = new ArrayList<>();
         List<PaymentPO> all;
         if (state == null) {
@@ -110,22 +110,22 @@ public class PaymentServiceImpl implements PaymentService {
      */
     @Override
     @Transactional
-    public void approval(String sheetId, PaymentState state) {
-        if (state.equals(PaymentState.FAILURE)) {
+    public void approval(String sheetId, RandPState state) {
+        if (state.equals(RandPState.FAILURE)) {
             PaymentPO sheet = paymentDao.findSheetById(sheetId);
-            if (sheet.getState().equals(PaymentState.SUCCESS)) throw new RuntimeException("状态更新失败");
+            if (sheet.getState().equals(RandPState.SUCCESS)) throw new RuntimeException("状态更新失败");
             int effectLines = paymentDao.updateState(sheetId, state);
             if (effectLines == 0) throw new RuntimeException("状态更新失败");
         } else {
-            PaymentState prevState;
-            if (state.equals(PaymentState.SUCCESS)) {
-                prevState = PaymentState.PENDING_LEVEL_2;
+            RandPState prevState;
+            if (state.equals(RandPState.SUCCESS)) {
+                prevState = RandPState.PENDING_LEVEL_2;
             } else {
                 throw new RuntimeException("状态更新失败");
             }
             int effectLines = paymentDao.updateStateV2(sheetId, prevState, state);
             if (effectLines == 0) throw new RuntimeException("状态更新失败");
-            if (state.equals(PaymentState.SUCCESS)) {
+            if (state.equals(RandPState.SUCCESS)) {
                 // 更新客户表的应付字段payable
                 PaymentPO paymentPO = paymentDao.findSheetById(sheetId);
                 CustomerPO customerPO = customerService.findCustomerById(paymentPO.getSupplier());
@@ -145,9 +145,16 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentVO getSheetById(String sheetId) {
         PaymentPO paymentPO = paymentDao.findSheetById(sheetId);
         if (paymentPO == null) return null;
-        List<PaymentContentPO> contentPO = paymentDao.findContentBySheetId(sheetId);
-        PaymentVO vo = new PaymentVO();
-        BeanUtils.copyProperties(contentPO, vo);
-        return vo;
+        List<PaymentContentPO> contentPOs = paymentDao.findContentBySheetId(sheetId);
+        PaymentVO paymentVO = new PaymentVO();
+        BeanUtils.copyProperties(paymentPO, paymentVO);
+        List<PaymentContentVO> contentVOs = new ArrayList<>();
+        for (PaymentContentPO po:contentPOs){
+            PaymentContentVO vo = new PaymentContentVO();
+            BeanUtils.copyProperties(po, vo);
+            contentVOs.add(vo);
+        }
+        paymentVO.setSheetContent(contentVOs);
+        return paymentVO;
     }
 }

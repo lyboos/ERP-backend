@@ -2,7 +2,7 @@ package com.nju.edu.erp.enums.sheetState;
 
 import com.nju.edu.erp.enums.BaseEnum;
 
-public enum ReceiptState implements BaseEnum<ReceiptState, String> {
+public enum RandPState implements BaseEnum<RandPState, String> {
 
     PENDING_LEVEL_2("待二级审批"), // 待总经理审批
     SUCCESS("审批完成"),
@@ -10,7 +10,7 @@ public enum ReceiptState implements BaseEnum<ReceiptState, String> {
 
     private final String value;
 
-    ReceiptState(String value) {
+    RandPState(String value) {
         this.value = value;
     }
 
