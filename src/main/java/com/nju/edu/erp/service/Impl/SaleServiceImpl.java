@@ -18,7 +18,6 @@ import com.nju.edu.erp.service.ProductService;
 import com.nju.edu.erp.service.SaleService;
 import com.nju.edu.erp.service.WarehouseService;
 import com.nju.edu.erp.utils.IdGenerator;
-import jdk.internal.net.http.common.Pair;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +77,7 @@ public class SaleServiceImpl implements SaleService {
         // 需要持久化销售单（SaleSheet）和销售单content（SaleSheetContent），其中总价或者折后价格的计算需要在后端进行
         // 需要的service和dao层相关方法均已提供，可以不用自己再实现一遍
         // 预计算
-        Pair<SaleSheetPO, List<SaleSheetContentPO>> p = cal(userVO, saleSheetVO);
+        Pair p = cal(userVO, saleSheetVO);
         SaleSheetPO rawPO = p.first;
         List<SaleSheetContentPO> rawPOList = p.second;
 
@@ -90,7 +89,7 @@ public class SaleServiceImpl implements SaleService {
         additionalDiscountStrategy.preProcessVO(resVO, saleSheetVO, rawPO, rawPOList);
         giveawayStrategy.preProcessVO(resVO, saleSheetVO, rawPO, rawPOList);
 
-        Pair<SaleSheetPO, List<SaleSheetContentPO>> processed = cal(userVO, resVO);
+        Pair processed = cal(userVO, resVO);
         SaleSheetPO resPO = processed.first;
         List<SaleSheetContentPO> resList = processed.second;
         // resPO和resPOList后置处理，赠送、减价等
@@ -104,7 +103,17 @@ public class SaleServiceImpl implements SaleService {
         saleSheetDao.save(resPO);
     }
 
-    Pair<SaleSheetPO, List<SaleSheetContentPO>> cal(UserVO userVO, SaleSheetVO saleSheetVO) {
+    class Pair {
+        public SaleSheetPO first;
+        public List<SaleSheetContentPO> second;
+
+        public Pair(SaleSheetPO first, List<SaleSheetContentPO> second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+    Pair cal(UserVO userVO, SaleSheetVO saleSheetVO) {
         SaleSheetPO saleSheetPO = new SaleSheetPO();
         BeanUtils.copyProperties(saleSheetVO, saleSheetPO);
         saleSheetPO.setOperator(userVO.getName());
@@ -130,7 +139,7 @@ public class SaleServiceImpl implements SaleService {
             totalAmount = totalAmount.add(sContentPO.getTotalPrice());
         }
         saleSheetPO.setRawTotalAmount(totalAmount);
-        return new Pair<>(saleSheetPO, sContentPOList);
+        return new Pair(saleSheetPO, sContentPOList);
     }
 
     @Override
