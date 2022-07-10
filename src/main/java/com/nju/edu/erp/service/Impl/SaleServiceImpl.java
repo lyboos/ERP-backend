@@ -84,17 +84,20 @@ public class SaleServiceImpl implements SaleService {
         BeanUtils.copyProperties(rawPO, resVO);
         resVO.setSaleSheetContent(saleSheetVO.getSaleSheetContent());
         // resVO预处理，为真计算做准备
-        userStrategy.preProcessVO(resVO, saleSheetVO, rawPO, rawPOList);
-        additionalDiscountStrategy.preProcessVO(resVO, saleSheetVO, rawPO, rawPOList);
-        giveawayStrategy.preProcessVO(resVO, saleSheetVO, rawPO, rawPOList);
+        // 链式调用，易于修改
+        resVO
+                .preProcess(userStrategy, saleSheetVO, rawPO, rawPOList)
+                .preProcess(additionalDiscountStrategy, saleSheetVO, rawPO, rawPOList)
+                .preProcess(giveawayStrategy, saleSheetVO, rawPO, rawPOList);
 
         Pair processed = cal(userVO, resVO);
         SaleSheetPO resPO = processed.first;
         List<SaleSheetContentPO> resList = processed.second;
         // resPO和resPOList后置处理，赠送、减价等
-        userStrategy.postProcessPO(resPO, resList, saleSheetVO, rawPO, rawPOList);
-        additionalDiscountStrategy.postProcessPO(resPO, resList, saleSheetVO, rawPO, rawPOList);
-        giveawayStrategy.postProcessPO(resPO, resList, saleSheetVO, rawPO, rawPOList);
+        resPO
+                .postProcess(userStrategy, resList, saleSheetVO, rawPO, rawPOList)
+                .postProcess(additionalDiscountStrategy, resList, saleSheetVO, rawPO, rawPOList)
+                .postProcess(giveawayStrategy, resList, saleSheetVO, rawPO, rawPOList);
 
         saleSheetDao.saveBatch(resList);
         BigDecimal finalAmount = resPO.getRawTotalAmount().multiply(resPO.getDiscount()).subtract(resPO.getVoucherAmount());
