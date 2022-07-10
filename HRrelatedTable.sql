@@ -1,5 +1,6 @@
 /*本文件提供HR相关表的创建sql语句*/
 /*checkin打卡记录表*/
+DROP TABLE IF EXISTS `checkin`;
 create table checkin
 (
     name varchar(31) not null,
@@ -8,6 +9,7 @@ create table checkin
 );
 
 /*staff_info员工信息表*/
+DROP TABLE IF EXISTS `staff_info`;
 create table staff_info
 (
     id                           int auto_increment

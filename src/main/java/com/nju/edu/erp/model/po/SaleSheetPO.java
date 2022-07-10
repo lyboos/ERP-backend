@@ -1,6 +1,8 @@
 package com.nju.edu.erp.model.po;
 
 import com.nju.edu.erp.enums.sheetState.SaleSheetState;
+import com.nju.edu.erp.model.vo.sale.SaleSheetVO;
+import com.nju.edu.erp.service.Impl.promotionStrategy.PromotionStrategy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -58,4 +61,9 @@ public class SaleSheetPO implements SheetPO {
      * 创建时间
      */
     private Date createTime;
+
+    public SaleSheetPO postProcess(PromotionStrategy p, List<SaleSheetContentPO> resList, SaleSheetVO calVO, SaleSheetPO calPO, List<SaleSheetContentPO> calPOList) {
+        p.postProcessPO(this, resList, calVO, calPO, calPOList);
+        return this;
+    }
 }

@@ -2,6 +2,7 @@
   共四张表的创建sql语句
 */
 /*receipt_sheet*/
+DROP TABLE IF EXISTS `receipt_sheet`;
 create table receipt_sheet
 (
     id           varchar(31)    not null
@@ -17,6 +18,7 @@ create table receipt_sheet
     comment '收款单';
 
 /*receipt_sheet_content*/
+DROP TABLE IF EXISTS `receipt_sheet_content`;
 create table receipt_sheet_content
 (
     id              int            not null
@@ -33,6 +35,7 @@ create table receipt_sheet_content
     comment '转账单';
 
 /*payment_sheet*/
+DROP TABLE IF EXISTS `payment_sheet`;
 create table payment_sheet
 (
     id           varchar(31)    not null
@@ -46,8 +49,10 @@ create table payment_sheet
         unique (id)
 )
     comment '付款单';
+INSERT INTO seec_erp.payment_sheet (id, supplier_id, operator, total_amount, state, create_time) VALUES ('FKD-20220703-001', 1, '1', 100.00, '审批完成', '2022-07-03 10:34:55');
 
 /*payment_sheet_content*/
+DROP TABLE IF EXISTS `payment_sheet_content`;
 create table payment_sheet_content
 (
     id              int            not null

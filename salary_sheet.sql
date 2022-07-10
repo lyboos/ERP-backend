@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `salary_sheet`;
 create table salary_sheet
 (
     id              varchar(31)    not null

@@ -1,6 +1,9 @@
 package com.nju.edu.erp.model.vo.sale;
 
 import com.nju.edu.erp.enums.sheetState.SaleSheetState;
+import com.nju.edu.erp.model.po.SaleSheetContentPO;
+import com.nju.edu.erp.model.po.SaleSheetPO;
+import com.nju.edu.erp.service.Impl.promotionStrategy.PromotionStrategy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -63,4 +66,9 @@ public class SaleSheetVO {
     List<SaleSheetContentVO> saleSheetContent;
 
     private Date createTime;
+
+    public SaleSheetVO preProcess(PromotionStrategy p, SaleSheetVO calVO, SaleSheetPO calPO, List<SaleSheetContentPO> calPOList) {
+        p.preProcessVO(this, calVO, calPO, calPOList);
+        return this;
+    }
 }

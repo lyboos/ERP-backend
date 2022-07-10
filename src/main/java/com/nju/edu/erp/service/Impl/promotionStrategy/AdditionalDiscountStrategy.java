@@ -3,7 +3,6 @@ package com.nju.edu.erp.service.Impl.promotionStrategy;
 import com.nju.edu.erp.model.po.SaleSheetContentPO;
 import com.nju.edu.erp.model.po.SaleSheetPO;
 import com.nju.edu.erp.model.vo.sale.SaleSheetVO;
-import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
 import java.util.List;

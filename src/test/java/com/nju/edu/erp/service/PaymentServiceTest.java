@@ -29,7 +29,7 @@ class PaymentServiceTest {
 
     @Test
     void getSheetById() {
-        PaymentVO paymentVO = paymentService.getSheetById("FKD-000001-001");
+        PaymentVO paymentVO = paymentService.getSheetById("FKD-20220703-001");
         System.out.println(paymentVO.getSupplier());
         System.out.println(paymentVO.getState());
     }
