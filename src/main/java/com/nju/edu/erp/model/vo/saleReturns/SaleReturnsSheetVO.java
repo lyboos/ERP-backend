@@ -1,5 +1,6 @@
 package com.nju.edu.erp.model.vo.saleReturns;
 
+import com.nju.edu.erp.enums.sheetState.SaleReturnsSheetState;
 import com.nju.edu.erp.enums.sheetState.SaleSheetState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,7 +45,7 @@ public class SaleReturnsSheetVO {
     /**
      * 单据状态, 新建单据时前端传null
      */
-    private SaleSheetState state;
+    private SaleReturnsSheetState state;
     /**
      * 应退还总金额, 新建单据时前端传null
      */

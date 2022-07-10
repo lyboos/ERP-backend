@@ -9,7 +9,7 @@ public class BigDecimalsArrayUtil {
     static public BigDecimal[] getBigDecimals(String level,String discount) {
         BigDecimal[] bigDecimals = new BigDecimal[5];
         for (int i = 0; i < bigDecimals.length; i++) {
-            bigDecimals[0] = new BigDecimal(0);
+            bigDecimals[i] = BigDecimal.ZERO;
         }
         bigDecimals[Integer.parseInt(level) - 1] = new BigDecimal(discount);
         System.out.println("!!!!");
