@@ -27,6 +27,8 @@ public class SalarySheetController {
     @Authorized (roles = {Role.SALE_STAFF, Role.SALE_MANAGER, Role.GM, Role.ADMIN})
     @PostMapping(value = "/sheet-make")
     public Response makeSalaryOrder(UserVO userVO, @RequestBody SalarySheetVO SalarySheetVO)  {
+        System.out.println(String.valueOf(SalarySheetVO));
+        System.out.println("55555");
         SalaryService.makeSheet(userVO, SalarySheetVO);
         return Response.buildSuccess();
     }

@@ -24,7 +24,7 @@
         select * from BankAccount where name=#{name}
     </select>
 
-    <select id="findAll" resultType="com.nju.edu.erp.model.po.BankAccountPO">
+    <select id="findAll" resultMap="BankAccountPO">
         select * from BankAccount
     </select>
 

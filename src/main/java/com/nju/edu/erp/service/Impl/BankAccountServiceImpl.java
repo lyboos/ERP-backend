@@ -40,7 +40,12 @@ public class BankAccountServiceImpl implements BankAccountService {
      */
     @Override
     public List<BankAccountPO> getBankAccounts() {
-
+        List<BankAccountPO> list=BankAccountDao.findAll();
+        for (BankAccountPO b:list
+             ) {
+            System.out.println("####");
+            System.out.println(String.valueOf(b));
+        }
         return BankAccountDao.findAll();
     }
 

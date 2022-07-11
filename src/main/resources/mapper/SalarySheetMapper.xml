@@ -7,7 +7,7 @@
 
     <insert id="save" parameterType="SalarySheetPO">
         insert into salary_sheet (id, staffId, name, bank_account_id, rawSalary, taxes,finalSalary,state,isBonus,create_time)
-        values (#{id},#{staffId},#{name},#{bank_account_id},#{rawSalary}, #{taxes}, #{fianlSalary}, #{state},#{isBonus}, #{createTime})
+        values (#{id},#{staffId},#{name},#{salaryAccount},#{rawSalary}, #{taxes}, #{finalSalary}, #{state},#{isBonus}, #{createTime})
     </insert>
 
     <select id="findAll" resultType="SalarySheetPO">

@@ -48,7 +48,8 @@ public class SalarySheetServiceImpl implements SalarySheetService {
     public void makeSheet(UserVO userVO, SalarySheetVO sheetVO) {
         SalarySheetPO sheetPO = new SalarySheetPO();
         BeanUtils.copyProperties(sheetVO, sheetPO);
-
+        System.out.println("&&&&&");
+        System.out.println(String.valueOf(sheetPO));
         // 如果是年终奖，计入12月
         sheetPO.setCreateTime(new Date());
         if (sheetVO.getIsBonus()) {
@@ -59,6 +60,7 @@ public class SalarySheetServiceImpl implements SalarySheetService {
         String id = IdGenerator.generateSheetId(latest == null? null : latest.getId(), "SKD");
         sheetPO.setId(id);
         StaffInfoPO staffInfoPO = staffDao.getStaffByName(sheetVO.getName());
+        System.out.println(staffInfoPO.getBankAccount());
         sheetPO.setSalaryAccount(staffInfoPO.getBankAccount());
 
         // 防御式编程
@@ -81,7 +83,8 @@ public class SalarySheetServiceImpl implements SalarySheetService {
         BigDecimal taxes = calTaxes(sheetPO.getRawSalary());
         sheetPO.setTaxes(taxes);
         sheetPO.setFinalSalary(sheetPO.getRawSalary().subtract(taxes));
-
+        System.out.println("&&&&&");
+        System.out.println(String.valueOf(sheetPO));
         salarySheetDao.save(sheetPO);
     }
 
