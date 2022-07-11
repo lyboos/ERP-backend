@@ -157,7 +157,7 @@ public class SalarySheetServiceImpl implements SalarySheetService {
      *
      * @param rawSalary (monthly, equals to yearly / 12)
      */
-    private static BigDecimal calTaxes(BigDecimal rawSalary) {
+    public static BigDecimal calTaxes(BigDecimal rawSalary) {
         // Code03
         // 失业保险为0.5%
         // 住房公积金7%~12%，按10%计算
