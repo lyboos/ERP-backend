@@ -1,3 +1,3 @@
 # SEECII-ERP
 
-2022 软工二大作业demo
+ERP系统后端代码，springboot+mybatis实现企业内部的订单管理与仓管
